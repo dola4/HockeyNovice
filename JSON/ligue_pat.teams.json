@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "659d6d95437f6c7a9e3c93a0"
+  },
+  "name": "PATS",
+  "stats_team": {
+    "victory": 0,
+    "defeat": 0,
+    "defeat_in_OT": 0,
+    "points": 0
+  }
+}]

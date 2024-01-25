@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Player</title>
+    <!-- Ajoutez des liens vers CSS si nécessaire -->
+</head>
+<body>
+    
+    <h1>Create New Player</h1>
+    
+
+    <form action="{{ url_for('admin_routes.create_player', team_id=team._id) }}" method="POST" enctype="multipart/form-data">
+        
+        <p>{{team.name}}</p>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br>
+
+        <label for="niveau">Level:</label>
+        <input type="text" id="niveau" name="niveau" required><br>
+
+        <label for="number">Number:</label>
+        <input type="number" id="number" name="number" required><br>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone"><br>
+
+        <label for="position">Position:</label>
+        <input type="text" id="position" name="position" required><br>
+
+        <label for="photo">Photo:</label>
+        <input type="file" id="photo" name="photo" accept="image/*"><br>
+
+
+        <button type="submit">Create Player</button>
+    </form>
+</body>
+</html>

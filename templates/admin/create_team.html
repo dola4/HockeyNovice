@@ -1,0 +1,11 @@
+
+<form method="POST" action="{{ url_for('admin_routes.create_team') }}">
+
+    <label for="teamName">Team Name:</label>
+    <input type="text" id="teamName" name="teamName" required>
+
+  
+    <button type="submit">Create Team</button>
+    
+</form>
+<a href="{{ url_for('admin_routes.admin_dashboard') }}">Annuler</a>

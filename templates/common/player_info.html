@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Informations du Joueur</title>
+</head>
+<body>
+
+    <a href="{{ url_for('common_routes.deconnect') }}">Déconnexion</a>
+
+
+    {% if player_id %}
+        <div class="player-profile-link">
+            <a href="{{ url_for('player_routes.player_profil', player_id=player_id) }}">Mon Profil</a>
+        </div>
+    {% endif %}
+    
+    <a href="{{ url_for('common_routes.all_teams') }}">All team</a>
+
+    <h1>Informations du Joueur</h1>
+    <div>
+        <img src="{{ player.photo_url }}" alt="Photo du joueur" />
+        <p>Nom : {{ player.first_name }} {{ player.last_name }}</p>
+        <p>Niveau : {{ player.niveau }}</p>
+        <p>Numéro : {{ player.number }}</p>
+        <p>Position : {{ player.position }}</p>
+        <p>E mail : {{ player.email }}</p>
+        <p>Téléphone : {{ player.phone }}</p>
+
+
+        <h2>Statistiques de joueur</h2>
+        <p> <a href="{{ url_for('common_routes.team_info', team_id=team._id) }}">{{ team.name }}</a> </p>
+        <table>
+            <tr>
+                <th>Games played</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Points</th>
+                <th>shots</th>
+                <th>Faceoff played</th>
+                <th>faceoff win</th>
+                <th>penality minutes</th>
+                <th>time on ice</th>
+                <th>shots blocked</th>
+                <th> + - </th>
+                <th>Goals per match</th>
+                <th>Shots per match</th>
+                <th>Faceoff percentage</th>
+                <th>penality per match</th>
+            </tr>
+            <tr>
+                <td>{{ player.stats_player.games_played }}</td>
+                <td>{{ player.stats_player.goals }}</td>
+                <td>{{ player.stats_player.assists }}</td>
+                <td>{{ player.stats_player.points }}</td>
+                <td>{{ player.stats_player.shots }}</td>
+                <td>{{ player.stats_player.faceoff_played }}</td>
+                <td>{{ player.stats_player.faceoff_win }}</td>
+                <td>{{ player.stats_player.penality_minutes }}</td>
+                <td>{{ player.stats_player.time_on_ice }}</td>
+                <td>{{ player.stats_player.shots_blocked }}</td>
+                <td>{{ player.stats_player.plus_minus }}</td>
+                <td>{{ player.stats_player.goals_per_match }}</td>
+                <td>{{ player.stats_player.shots_per_match }}</td>
+                <td>{{ player.stats_player.faceoff_percentage }}</td>
+                <td>{{ player.stats_player.penality_per_match }}</td>     
+            </tr>
+        </table>
+
+        {% if player.stats_goaler %}
+        <h2>Statistiques du Gardien</h2>
+        <table>
+            <tr>
+                <th>Games played</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>shot against</th>
+                <th>Save</th>
+                <th>Goals given</th>
+                <th>Time on ice</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Penality minutes</th>
+                <th>Points</th>
+                <th>Points per match</th>
+                <th>Goals against average</th>
+                <th>Goals against per match</th>
+                <th>Save average</th>
+                <th>Save per match</th>
+                <th>Penality per match</th>
+            </tr>
+            <tr>
+                <td>{{ player.stats_goaler.games_played }}</td>
+                <td>{{ player.stats_goaler.wins }}</td>
+                <td>{{ player.stats_goaler.losses }}</td>
+                <td>{{ player.stats_goaler.shot_against }}</td>
+                <td>{{ player.stats_goaler.save }}</td>
+                <td>{{ player.stats_goaler.goals_given }}</td>
+                <td>{{ player.stats_goaler.time_on_ice }}</td>
+                <td>{{ player.stats_goaler.goals }}</td>
+                <td>{{ player.stats_goaler.assists }}</td>
+                <td>{{ player.stats_goaler.penality_minutes }}</td>
+                <td>{{ player.stats_goaler.points }}</td>
+                <td>{{ player.stats_goaler.points_per_match }}</td>
+                <td>{{ player.stats_goaler.goals_against_average }}</td>
+                <td>{{ player.stats_goaler.goals_against_per_match }}</td>
+                <td>{{ player.stats_goaler.save_average }}</td>
+                <td>{{ player.stats_goaler.save_per_match }}</td>
+                <td>{{ player.stats_goaler.penality_per_match }}</td>
+            </tr>
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>

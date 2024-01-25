@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Statistiques du Match</title>
+    <!-- Ajoutez ici des liens vers CSS ou JavaScript si nécessaire -->
+</head>
+<body>
+
+    <h1>Match : {{ game.opponent }} le {{ game.date }} à {{ game.time }}</h1>
+    <h2>Statistiques des Joueurs</h2>
+
+    <table>
+        <tr>
+            <th>Nom du Joueur</th>
+            <th>Buts</th>
+            <th>Assistances</th>
+            <!-- Ajoutez d'autres colonnes pour différentes statistiques si nécessaire -->
+        </tr>
+        {% for player_stat in players_stats %}
+        <tr>
+            <td>{{ player_stat.player.first_name }} {{ player_stat.player.last_name }}</td>
+            <td>{{ player_stat.stats_game_player.goals }}</td>
+            <td>{{ player_stat.stats_game_player.assists }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

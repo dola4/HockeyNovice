@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/styles/admin/dashboard.css">
+
+    <title>Dashboard Admin</title>
+</head>
+<body>
+
+    <div class="header">
+
+    <h1>Dashboard Admin</h1>
+    <a href="{{ url_for('common_routes.deconnect') }}">Déconnexion</a>
+
+    </div>
+
+    <div>
+
+
+        <h2>Liste des Équipes</h2>
+        <table>
+            <tr>
+                <th>Équipes</th>
+                <th>Victoires</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            {% for team in teams %}
+            <tr>
+                <td><a href="{{ url_for('admin_routes.admin_team', team_id=team._id) }}">{{ team.name }}</a></td>
+                <td>{{ team.stats_team.victory }}</td>
+                <td><a href="{{ url_for('admin_routes.edit_team', team_id=team._id) }}">Edit</a></td>
+                <td>
+                    <form action="{{ url_for('admin_routes.delete_team', team_id=team._id) }}" method="post" onsubmit="return confirmDelete()">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div>
+        <a href="{{ url_for('admin_routes.create_team') }}">create team</a>
+</body>
+</html>
+
+<script>
+function confirmDelete() {
+    return confirm('Êtes-vous sûr de vouloir supprimer cette équipe ?');
+}
+</script>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/styles/admin/team.css">
+
+    <title>Informations de l'Équipe</title>
+</head>
+<body>
+    <header>
+
+        <a href="{{ url_for('admin_routes.admin_dashboard') }}">All team</a>
+        <a href="{{ url_for('admin_routes.create_player', team_id=team._id) }}">New player</a>
+
+        <a href="{{ url_for('common_routes.deconnect') }}">Déconnexion</a>
+
+    </header>
+
+
+    <h1>{{ team.name }}</h1>
+
+    <h2>Matches joues</h2>
+    <table>
+        <tr>
+            <th>opponent</th>
+            <th>date</th>
+            <th>heure</th>
+        </tr>
+        {% for game in games %}
+        <tr>
+            <td><a href="{{ url_for('admin_routes.played_match', game_id=game._id) }}">{{ game.opponent }}</a></td>
+            <td>{{game.date}}</td>
+            <td>{{game.time}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Statistiques de l'Équipe</h2>
+    <table>
+        <tr>
+            <th>Victoire</th>
+            <th>Défaite</th>
+            <th>Défaite en surtemps</th>
+            <th>Points</th>
+        </tr>
+        <tr>
+            <td>{{ team.stats_team.victory }}</td>
+            <td>{{ team.stats_team.defeat }}</td>
+            <td>{{ team.stats_team.defeat_in_OT }}</td>
+            <td>{{ team.stats_team.points }}</td>
+        </tr>
+    </table>
+
+
+
+    <h2>Joueurs</h2>
+
+    <form action="{{ url_for('admin_routes.gameOn', team_id=team._id) }}" method="POST">
+        <label for="opponent">Opponent : </label>
+        <input type="text" name="opponent" id="opponent" placeholder="Opponent" required>
+        
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Position</th>
+                <th>Game on</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            {% for player in players %}
+            <tr>
+                <td><a href="{{ url_for('admin_routes.admin_player', player_id=player._id) }}">{{ player.first_name }} {{ player.last_name }}</a></td>
+                <td>{{ player.number }}</td>
+                <td>{{ player.position }}</td>
+                <td>
+                    <input type="checkbox" name="onGame" value="{{ player._id }}"/>game on
+                </td>
+                <td><a href="{{ url_for('admin_routes.edit_player', player_id=player._id) }}">Edit</a></td>
+                <td>
+                    <!-- Déplacer le formulaire de suppression hors du formulaire principal -->
+                    <button type="button" onclick="confirmDeleteAndSubmit('{{ player._id }}')">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <div class="startGameButtonContainer">
+            <button type="submit" class="startGameButton">Start Game</button>
+        </div>
+    </form>
+    
+    {% for player in players %}
+    <!-- Créer des formulaires de suppression séparés pour chaque joueur -->
+    <form id="deleteForm-{{ player._id }}" action="{{ url_for('admin_routes.delete_player', player_id=player._id) }}" method="post" style="display: none;">
+        <!-- Le contenu du formulaire -->
+    </form>
+    {% endfor %}
+    
+    
+    
+
+    
+    
+
+</body>
+</html>
+<script>
+    <script>
+        function confirmDeleteAndSubmit(playerId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce joueur ?')) {
+                document.getElementById('deleteForm-' + playerId).submit();
+            }
+        }
+    </script>
+    

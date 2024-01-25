@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Team</title>
+</head>
+<body>
+
+    <a href="{{ url_for('common_routes.deconnect') }}">Déconnexion</a>
+
+
+    {% if player_id %}
+        <div class="player-profile-link">
+            <a href="{{ url_for('player_routes.player_profil', player_id=player_id) }}">Mon Profil</a>
+        </div>
+    {% endif %}
+
+    <h1>All Team</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Victoires</th>
+                <th>Defaites</th>
+                <th>Nuls</th>
+                <th>Points</th>
+                <th>Joueurs</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td><a href="{{ url_for('common_routes.team_info', team_id=team._id) }}">{{ team.name }}</a></td>
+                <td>{{ team.stats_team.victory }}</td>
+                <td>{{ team.stats_team.defeat }}</td>
+                <td>{{ team.stats_team.defeat_in_OT }}</td>
+                <td>{{ team.stats_team.points }}</td>
+                <td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Number</th>
+                                <th>Niveau</th>
+                                <th>Goals</th>
+                                <th>Assists</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in team.players %}
+                                <tr>
+                                    <td><a href="{{ url_for('common_routes.player_info', player_id=player._id) }}">{{ player.last_name }}</a></td>
+                                    <td>{{ player.number }}</td>
+                                    <td>{{ player.niveau }}</td>
+                                    <td>{{ player.stats_player['goals'] | default(0) }}</td>
+                                    <td>{{ player.stats_player['assists'] | default(0) }}</td>
+                                    <td>{{ player.stats_player['points'] | default(0) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

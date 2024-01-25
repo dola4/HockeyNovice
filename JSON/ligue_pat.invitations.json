@@ -1,0 +1,10 @@
+[{
+  "_id": {
+    "$oid": "659d6dc6437f6c7a9e3c93a2"
+  },
+  "player_id": {
+    "$oid": "659d6dc6437f6c7a9e3c93a1"
+  },
+  "token": "a1u349MA0Qy4n4VN82plAA",
+  "status": "accepte"
+}]

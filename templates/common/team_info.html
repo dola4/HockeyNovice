@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Informations de l'Équipe</title>
+</head>
+<body>
+
+    <a href="{{ url_for('common_routes.deconnect') }}">Déconnexion</a>
+
+
+    {% if player_id %}
+        <div class="player-profile-link">
+            <a href="{{ url_for('player_routes.player_profil', player_id=player_id) }}">Mon Profil</a>
+        </div>
+    {% endif %}    
+
+    <a href="{{ url_for('common_routes.all_teams') }}">All team</a>
+
+    <h1>Équipe : {{ team.name }}</h1>
+
+    <h2>Statistiques de l'Équipe</h2>
+    <p>Victoires : {{ team.stats_team.victory }}</p> 
+    <p>Défaites :  {{ team.stats_team.defeat }}</p>
+    <p>Défaites en surtemps : {{ team.stats_team.defeat_in_OT }}</p>
+    <p>Points : {{ team.stats_team.points }}</p>
+
+    <h2>Joueurs</h2>
+
+        <table>     
+            <tr>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Position</th>
+                <th>goals</th>
+                <th>assists</th>
+                <th>points</th>
+                
+            </tr>
+            {% for player in players %}
+            <tr>
+                <td><a href="{{ url_for('common_routes.player_info', player_id=player._id) }}">{{ player.first_name }} {{ player.last_name }}</a></td>
+                <td>{{ player.number }}</td>
+                <td>{{ player.position }}</td>
+                <td>{{ player.stats_player.goals }}</td>
+                <td>{{ player.stats_player.assists }}</td>
+                <td>{{ player.stats_player.points }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+</body>
+</html>

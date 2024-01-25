@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Match en Cours</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/admin/gameOn.css">
+    <!-- Ajoutez ici des liens vers CSS ou JavaScript si nécessaire -->
+</head>
+<body>
+    <h1>Match en Cours</h1>
+
+    <!-- Boutons de Contrôle du Match -->
+    
+
+    <div class="score-controls">
+        <div>
+            <h3 class="score">Team</h3>
+            <button id="teamScorePlus">-</button>
+            <span id="teamScore">0</span>
+            <button id="teamScoreMinus">+</button>
+    </div>
+    <div>
+        <h3 class="score">Opponent</h3>
+        <button id="opponentScorePlus">-</button>
+        <span id="opponentScore">0</span>
+        <button id="opponentScoreMinus">+</button>
+    </div>
+
+
+    
+
+
+    <!-- Tableau pour Tous les Joueurs de l'Équipe -->
+    <h2>Tous les Joueurs</h2>
+    <table id="allPlayers">
+        <tr>
+            <th>Joueur et temps de jeu</th>
+        </tr>
+        <!-- Les lignes du tableau seront ajoutées ici dynamiquement -->
+        <!-- Dans le tableau de tous les joueurs -->
+
+        {% for player in players %}
+        <tr id="{{ player._id }}" onclick="movePlayerToIce('{{ player._id }}')">
+            <td>{{ player.first_name }} {{ player.number }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <button id="pauseButton">Pause</button>
+
+    <!-- Tableau pour les Joueurs sur la Glace -->
+    <h2>Joueurs sur la Glace</h2>
+    <h5>Goaler</h5>
+    <table id="goalerOnIce">
+        <tr>
+            <th>Joueur</th>
+            <th>Save</th>
+            <th>Goals_given</th>
+            <th>Penality</th>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Time On Ice</th>
+            <!-- Ajoutez d'autres colonnes pour différentes statistiques si nécessaire -->
+        </tr>
+        <!-- Les lignes du tableau seront ajoutées ici dynamiquement -->
+    </table>
+    <h5>Joueurs</h5>
+    <table id="playersOnIce">
+        <tr>
+            <th>Joueur</th>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Shots</th>
+            <th>Faceoff Played</th>
+            <th>Faceoff Win</th>
+            <th>Turnovers</th>
+            <th>penality</th>
+            <th>Blocked Shots</th>
+            <th>+ -</th>
+            <th>Time On Ice</th>
+        </tr>
+    </table>
+
+    <button id="endButton">Terminer</button>
+    <a href="{{url_for('admin_routes.admin_team', team_id=team._id)}}">Cancel</a>
+
+    <!-- Script JavaScript pour la Logique du Match -->
+    <script>
+
+        const teamId = "{{ team._id }}";
+
+        function pauseMatch() {        
+            // Déplacez les joueurs du tableau sur la glace au tableau allPlayers
+            movePlayersBackToAllPlayers(document.getElementById('playersOnIce'));
+            movePlayersBackToAllPlayers(document.getElementById('goalerOnIce'));
+        }
+        
+
+
+        function addStatButtons(playerRowClone, playerId, isGoaler) {
+            playerRowClone.id = playerId;
+            let statTypes;
+        
+            if (isGoaler) {
+                statTypes = ['save', 'goals_given', 'penalty_minutes', 'goals', 'assists', 'time_on_ice'];
+            } else {
+                statTypes = ['goals', 'assists', 'shots','faceoff_played', 'faceoff_win', 'turnovers', 'penalty_minutes', 'blocked_shots', 'plus_minus', 'time_on_ice'];
+            }
+        
+            // Créer les éléments pour chaque type de statistique
+            statTypes.forEach(statType => {
+                const td = document.createElement('td');
+                td.classList.add(statType);
+                // Seuls les boutons et les compteurs sont affichés, pas le temps de jeu
+                td.innerHTML = `
+                    <button onclick="updateStat('${playerRowClone.id}', '${statType}', -1)">-</button>
+                    <span class="statValue">0</span>
+                    <button onclick="updateStat('${playerRowClone.id}', '${statType}', 1)">+</button>
+                `;
+                playerRowClone.appendChild(td);
+            });
+            
+        }
+        
+        function movePlayerToIce(playerOrId) {
+            const playersOnIceTable = document.getElementById('playersOnIce');
+            const goalerOnIceTable = document.getElementById('goalerOnIce');
+            const allPlayersTable = document.getElementById('allPlayers');
+        
+            let playerRow;
+            if (typeof playerOrId === 'string') {
+                playerRow = allPlayersTable.querySelector(`tr[id="${playerOrId}"]`);
+            } else {
+                playerRow = this;
+            }
+        
+            if (!playerRow) {
+                console.error("Joueur introuvable :", playerOrId);
+                return;
+            }
+        
+            const playerRowClone = playerRow.cloneNode(true);
+            playerRowClone.removeAttribute('onclick'); 
+        
+            // Détermine si le joueur doit être ajouté en tant que goaler
+            const isGoaler = goalerOnIceTable.rows.length === 1; // Si une seule ligne (l'en-tête), le prochain joueur est un goaler
+            addStatButtons(playerRowClone, playerRow.id || playerOrId, isGoaler);
+        
+            // Ajoute le joueur au tableau approprié
+            if (isGoaler) {
+                goalerOnIceTable.appendChild(playerRowClone);
+            } else {
+                playersOnIceTable.appendChild(playerRowClone);
+            }
+        
+            playerRow.remove();
+        }       
+        
+        
+    
+        function updateStat(playerId, statType, change) {
+            return new Promise((resolve, reject) => {
+                const playerRow = document.getElementById(playerId);
+                let statCell;
+        
+                if (playerRow) {
+                    statCell = playerRow.querySelector(`.${statType} .statValue`);
+                    let currentValue = parseInt(statCell.textContent) || 0;
+                    statCell.textContent = currentValue + change; // Mise à jour immédiate de l'UI
+                }
+        
+                const isGoaler = document.getElementById('goalerOnIce').contains(playerRow);
+                let operation = change === 1 ? (isGoaler ? "increment_goaler" : "increment_player") 
+                                             : (isGoaler ? "decrement_goaler" : "decrement_player");
+        
+                fetch('/update_player_stats', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `playerId=${playerId}&gameId=${teamId}&operation=${operation}&statType=${statType}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    if (!data.success) {
+                        // Si le serveur renvoie une erreur, annulez la mise à jour de l'UI
+                        statCell.textContent = currentValue; // Revenez à la valeur précédente
+                        reject('Error in updating stats');
+                    } else {
+                        resolve(data);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    statCell.textContent = currentValue; // Revenez à la valeur précédente en cas d'erreur
+                    reject(error);
+                });
+            });
+        }        
+
+        
+
+        function movePlayersBackToAllPlayers(table) {
+            while (table.rows.length > 1) {
+                const playerRow = table.rows[1];
+                const playerId = playerRow.id;
+                const playerInfo = playerRow.cells[0].textContent; // Nom et numéro du joueur
+        
+                const allPlayersTable = document.getElementById('allPlayers');
+                let allPlayersRow = allPlayersTable.querySelector(`tr[id="${playerId}"]`);
+        
+                if (!allPlayersRow) {
+                    allPlayersRow = document.createElement('tr');
+                    allPlayersRow.id = playerId;
+                    allPlayersRow.innerHTML = `<td>${playerInfo}</td>`;
+                    allPlayersRow.onclick = () => movePlayerToIce(playerId);
+                    allPlayersTable.appendChild(allPlayersRow);
+                }
+        
+                playerRow.remove();
+            }
+        }
+
+        function endMatch() {
+            console.log('Fin du match');
+            const updates = [];
+            updates.push(...updateGamesPlayedForAllPlayers(document.getElementById('allPlayers')));
+            updates.push(...updateGamesPlayedForAllPlayers(document.getElementById('playersOnIce')));
+            updates.push(...updateGamesPlayedForAllPlayers(document.getElementById('goalerOnIce')));
+        
+            Promise.all(updates)
+                .then(() => {
+                    window.location.href = '/admin_team/' + teamId;
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la mise à jour des jeux joués:', error);
+                });
+        }
+        
+        
+        function updateGamesPlayedForAllPlayers(table) {
+            const updates = [];
+            Array.from(table.rows).forEach((row, index) => {
+                if (index === 0) return; // Ignorez l'en-tête du tableau
+        
+                const playerId = row.id;
+                if (!playerId) return;
+        
+                const statType = 'games_played';
+        
+                updates.push(updateStat(playerId, statType, 1));
+            });
+            return updates;
+        }
+        
+        
+        
+        
+        document.getElementById('pauseButton').addEventListener('click', pauseMatch);
+        document.getElementById('endButton').addEventListener('click', endMatch);
+
+    </script>
+    
+</body>
+</html>

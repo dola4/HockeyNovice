@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modification de mes informations</title>
+</head>
+<body>
+    <form method="POST" action="{{ url_for('player_routes.edit_info', player_id=player._id) }}" enctype="multipart/form-data">
+
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" value="{{ player.first_name }}"><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" value="{{ player.last_name }}"><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ player.email }}"><br>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" value="{{ player.phone }}"><br>
+
+        <label for="photo">Photo:</label>
+        <input type="file" id="photo" name="photo"><br>
+
+        <button type="submit">Mettre à jour</button>
+    </form>
+    <a href="{{ url_for('player_routes.player_profil', player_id=player._id) }}">Annuler</a>
+
+</body>
+</html>

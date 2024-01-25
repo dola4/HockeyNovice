@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Éditer Équipe</title>
+</head>
+<body>
+    <form method="POST" action="{{ url_for('admin_routes.edit_team', team_id=team._id) }}">
+        <label for="teamName">Nom de l'équipe:</label>
+        <input type="text" id="teamName" name="teamName" value="{{ team.name }}"><br>
+        <button type="submit">Mettre à jour</button>
+        <a href="{{ url_for('admin_routes.admin_dashboard') }}">Annuler</a>
+    </form>
+</body>
+</html>
