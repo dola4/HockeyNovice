@@ -2,21 +2,25 @@ from database.mongoDB import connection
 from bson.objectid import ObjectId, InvalidId
 from twilio.rest import Client
 
+from datetime import datetime
+
 db = connection()
 
 
 class Invitation:
-    def __init__(self, player_id, token, status, _id=None):
+    def __init__(self, player_id, token, date, status, _id=None):
         self._id = _id
         self.player_id = player_id
         self.token = token
-        self.status = status  # Par exemple : "envoyé", "accepté", "expiré"
+        self.date = date
+        self.status = status # "envoyé", "accepté", "expiré"
 
     def to_dict(self):
         return {
             "_id": self._id,
             "player_id": self.player_id,
             "token": self.token,
+            "date": self.date,
             "status": self.status
         }
     
@@ -25,8 +29,11 @@ class Invitation:
             "_id": invitation_dict["_id"],
             "player_id": invitation_dict["player_id"],
             "token": invitation_dict["token"],
+            "date": invitation_dict["date"],
             "status": invitation_dict["status"]
         }
+        
+    
     
     def create(self):
         try:           
@@ -104,6 +111,10 @@ class Invitation:
         try:
             invitation = db.invitations.find_one({"player_id": player_id})
             if invitation:
+                if invitation.status == "envoye":
+                    if invitation.date + 5 > datetime.date.today():
+                        invitation.status = "expire"
+                        return invitation["status"]
                 return invitation["status"]
             else:
                 return None

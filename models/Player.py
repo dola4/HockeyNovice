@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from pymongo import ReturnDocument
 
 import secrets
+import datetime
 
 from .Invitation import Invitation
 from .StatsGoaler import StatsGoaler
@@ -83,7 +84,9 @@ class Player:
             inserted_player = db.players.insert_one(player_dict)
             self._id = inserted_player.inserted_id 
 
-            invitation = Invitation(self._id, self.token, "envoye")
+            today = datetime.date.today()
+            
+            invitation = Invitation(self._id, self.token, today, "envoye")
             invitation.create()
             invitation.send_by_sms(self.phone, self.email, initial_password, self.token)
 

@@ -199,7 +199,7 @@ def increment_stats():
 #find_one()
 #find_one_by_email()
 #find_one_by_number()
-find_all()
+#find_all()
 #update()
 #delete()
 

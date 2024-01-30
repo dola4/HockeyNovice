@@ -28,10 +28,11 @@ def login():
                 session['player'] = player.to_session_dict()
                 invitation = Invitation.find_one_by_player(player._id)
                 if invitation:
-                    if invitation.status == "envoye":
+                    status = Invitation.check_state(player._id)
+                    if status == "envoye":
                         return redirect(url_for('player_routes.confirm_invitation', player_id=player._id))
                 
-                    elif invitation.status == "accepte":
+                    elif status == "accepte":
                         return redirect(url_for('player_routes.player_profil', player_id=player._id))
                 
                     else:
