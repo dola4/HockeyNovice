@@ -19,7 +19,7 @@ def find_one():
 
 
 def find_one_by_email():
-    email = "matthieu.marandola.mm@gmail.com"
+    email = ""
     admin = Admin.find_one_by_email(email)
     if admin:
         print(admin.to_dict())

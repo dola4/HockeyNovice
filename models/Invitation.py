@@ -123,9 +123,9 @@ class Invitation:
             return None
     
     def send_by_sms(self, phone, email, mot2pass, token):
-        account_sid = 'ACff28aa0dd26c23d51908ee5f61c77076'
-        auth_token = 'ba01b0dd65210fb423ce0e457fb20276'
-        my_twilio_phone = '+16098432075'
+        account_sid = ''
+        auth_token = ''
+        my_twilio_phone = ''
         client = Client(account_sid, auth_token)
 
         body = f"""Bonjour,

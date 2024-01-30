@@ -9,7 +9,7 @@ def connection():
 
 
     # URI de connexion à MongoDB Atlas
-    #uri = "mongodb+srv://dol4:RZb7J1moWDUBmEW4@liguepat.ngow3bg.mongodb.net/?retryWrites=true&w=majority"
+    #uri = ""
     
     # Création du client MongoDB
     #client = MongoClient(uri)
