@@ -6,6 +6,9 @@ from datetime import datetime, timedelta
 
 db = connection()
 
+ACCOUNT_SID = ''
+AUTH_TOKEN = ''
+TWILIO_PHONE = ''
 
 class Invitation:
     def __init__(self, player_id, token, date, status, _id=None):
@@ -119,9 +122,9 @@ class Invitation:
             return None
     
     def send_by_sms(self, phone, email, mot2pass, token):
-        account_sid = ''
-        auth_token = ''
-        my_twilio_phone = ''
+        account_sid = ACCOUNT_SID
+        auth_token = AUTH_TOKEN
+        my_twilio_phone = TWILIO_PHONE
         client = Client(account_sid, auth_token)
 
         body = f"""Bonjour,

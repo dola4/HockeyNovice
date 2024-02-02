@@ -1,0 +1,57 @@
+Pour mettre en place la projet Flask avec MongoDB et Twilio, suivez ces étapes :
+
+1. Installation des dépendances
+Ouvrez un terminal et exécutez la commande suivante pour installer toutes les dépendances nécessaires 
+répertoriées dans votre fichier `requirements.txt` :
+
+```
+pip install -r requirements.txt
+```
+
+Cette étape installe Flask pour le framework web, pymongo pour interagir avec MongoDB, et la bibliothèque 
+Twilio pour l'envoi de SMS, parmi d'autres dépendances nécessaires.
+
+
+2. Configuration de Twilio
+Pour utiliser Twilio :
+- Inscrivez-vous ou connectez-vous à votre compte Twilio.
+- Accédez au Tableau de bord Twilio](https://www.twilio.com/console) pour obtenir votre 
+`ACCOUNT_SID` et `AUTH_TOKEN`.
+- Achetez ou sélectionnez un numéro Twilio qui sera utilisé pour envoyer des SMS.
+- Stockez votre `ACCOUNT_SID`, `AUTH_TOKEN`, et le numéro Twilio dans les variables 
+ACCOUNT_SID, AUTH_TOKEN et TWILIO_PHONE dans le haut du fichier models/Invitation.py
+
+
+3. Configuration de MongoDB
+- Pour MongoDB Atlas : Créez une instance cluster sur MongoDB Atlas(https://www.mongodb.com/cloud/atlas), 
+et configurez la chaîne de connexion dans votre fichier `database/mongoDB.py` pour utiliser votre cluster Atlas.
+
+- Pour MongoDB Compass : Si vous utilisez MongoDB localement avec Compass, assurez-vous que la chaîne 
+de connexion dans `database/mongoDB.py` correspond à votre configuration locale (par défaut `mongodb://localhost:27017/`).
+
+### Remplissage de la Base de Données
+Avant de démarrer l'application, assurez-vous d'avoir des données initiales pour les équipes, joueurs, 
+et administrateurs. Utilisez MongoDB Atlas ou Compass pour insérer ces données directement ou via des scripts 
+de test que vous avez mentionnés (`test_admin`, `test_player`, `test_team`).
+
+********** Attention : SMS Twilio **********
+Pour les tests impliquant l'envoi de SMS aux joueurs (`test_player`), assurez-vous d'utiliser des numéros 
+de téléphone valides et d'avoir suffisamment de crédit Twilio pour l'envoi de SMS.
+********************************************
+
+4. Lancement de l'Application
+Exécutez votre application Flask avec la commande suivante :
+
+```
+python app.py
+```
+
+Cela démarrera le serveur de développement Flask en mode débogage.
+
+5. Connexion à l'Application
+Utilisez un navigateur web ou un client HTTP comme Postman pour vous connecter à votre application en 
+utilisant les informations entrées dans les fichiers de test (`test_admin`, `test_team`). Accédez aux différentes 
+routes définies dans les blueprints pour tester les fonctionnalités de l'application.
+
+En suivant ces étapes, vous devriez être en mesure de configurer, tester, et utiliser votre application Flask 
+avec MongoDB et Twilio.

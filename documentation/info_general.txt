@@ -1,0 +1,64 @@
+Introduction
+Cette application est conçue pour gérer et analyser les statistiques de joueurs et d'équipes de hockey de niveau 
+novice et inférieur, facilitant le suivi des performances, la gestion des équipes et des joueurs, et l'interaction 
+avec les utilisateurs via des interfaces administrateur et joueur. Elle permet aux administrateurs de créer et de 
+gérer des équipes et des joueurs, de suivre les statistiques de matchs et de les modifier en temps réel durant un 
+match, donnant ainsi la possibilité aux parents de suivre les statistiques de leurs enfants à chaque présence sur
+la glace.
+
+Technologies Utilisées :
+- Langages de Programmation :
+  - Python : Utilisé comme langage de programmation principal pour le backend de l'application, connu pour sa 
+  simplicité et sa puissance dans le développement web et l'analyse de données.
+
+- Librairies et Frameworks :
+  - Flask : Un micro-framework web en Python qui facilite la création d'applications web rapidement avec moins de 
+  code. Il est utilisé pour construire l'interface backend et l'API.
+  - Pymongo : Un pilote Python pour MongoDB qui permet de travailler facilement avec MongoDB à partir de Python.
+  - Twilio : Une bibliothèque permettant d'intégrer les fonctionnalités de communication, comme l'envoi de SMS aux 
+  joueurs pour les notifications.
+  - Werkzeug : Une collection d'utilitaires Python pour le développement d'applications web, utilisée conjointement 
+  avec Flask pour la gestion des sessions, la sécurité, etc.
+
+Base de Données :
+- MongoDB : Une base de données NoSQL orientée documents, choisie pour sa flexibilité et sa capacité à gérer de 
+grandes quantités de données non structurées, idéale pour les statistiques et données de joueurs et d'équipes.
+
+Architecture et Fonctionnalités :
+Architecture :
+- L'application suit une architecture modulaire basée sur Flask, où le code est organisé en "blueprints" pour 
+séparer les fonctionnalités administrateur, joueur, et communes. La base de données MongoDB stocke les données des 
+utilisateurs, des équipes, des joueurs, et des matchs. L'interaction avec la base de données est gérée à travers 
+une couche d'abstraction permettant des requêtes et des mises à jour simplifiées.
+
+Fonctionnalités Clés des 'Admin' et 'Player' :
+- Admin :
+  - Gestion des Équipes : Créer, modifier et supprimer des équipes, ainsi que visualiser leurs statistiques.
+  - Gestion des Joueurs : Ajouter ou retirer des joueurs des équipes, mettre à jour leurs informations et 
+  statistiques. À la création d'un joueur, une 'Invitation' est envoyée par SMS au parent pour confirmer leur 
+  accord sur le fait que des informations sensibles à propos de leur(s) enfant(s) soient disponibles pour tous 
+  les parents et/ou les joueurs ayant un compte sur la plateforme (nom, prénom, âge, niveau, statistique de joueurs 
+  ou de gardien). Le SMS contient l'e-mail du parent, le mot de passe d'origine (prénom du joueur avec son numéro) 
+  et un 'token' unique que l'administrateur ne connaît pas.
+  - Analyse des Matchs : Enregistrer les résultats des matchs, mettre à jour les statistiques des équipes et des 
+  joueurs basées sur les performances des matchs en temps réel.
+
+- Player :
+  - Recevoir un message texte d'invitation à la plateforme pour permettre l'enregistrement.
+  - Première connexion : À sa première connexion, le joueur doit obligatoirement changer son mot de passe fourni 
+  par l'administrateur à sa création (prénom du joueur avec son numéro, par exemple Matthieu04).
+  - Profil et Statistiques : Les joueurs peuvent consulter leurs statistiques personnelles et celles des autres 
+  joueurs de toutes les équipes, les performances de tous les joueurs de toutes les équipes pour tous les matchs 
+  joués, et les détails de toutes les équipes.
+
+Cette application offre une solution complète pour la gestion et l'analyse des performances des joueurs et des 
+équipes de hockey de niveau novice et inférieur de l'association, rendant le suivi des progrès des joueurs et des 
+équipes accessible et interactif.
+
+Règles novice :
+- Pas de hors-jeu parce que le jeu se déroule sur une demi-glace.
+- Les punitions sont calculées en nombre brut et non en minutes puisqu'il n'y a pas d'avantage numérique.
+- Le temps sur la glace est un nombre brut représentant une présence sur la glace puisque tous les joueurs font 
+des présences de 1 minute 30 secondes.
+- Il n'y a pas d'horaire de match fixe.
+- Il n'y a pas d'équipe adverse connue d'avance.

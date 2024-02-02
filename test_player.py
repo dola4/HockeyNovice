@@ -14,7 +14,7 @@ def create():
     print(team_id)
     player1 = Player(team_id=team_id,
                      email="@gmail.com",
-                     password="123",
+                     password="",
                      first_name="",
                      last_name="",
                      niveau="novice 3", 
@@ -26,8 +26,8 @@ def create():
     player1.create()
 
     player2 = Player(team_id=team_id,
-                        email="zack@gmail.com",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="",
                         niveau="novice 3",
@@ -39,8 +39,8 @@ def create():
     player2.create()
 
     player3 = Player(team_id=team_id,
-                        email="",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="",
                         niveau="novice 3",
@@ -52,8 +52,8 @@ def create():
     player3.create()
 
     player4 = Player(team_id=team_id,
-                        email="",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="",
                         niveau="novice 3",
@@ -65,8 +65,8 @@ def create():
     player4.create()
 
     player5 = Player(team_id=team_id,
-                        email="",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="",
                         niveau= "novice 3",
@@ -78,8 +78,8 @@ def create():
     player5.create()
 
     player6 = Player(team_id=team_id,
-                        email="",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="-",
                         niveau="novice 3",
@@ -90,36 +90,36 @@ def create():
     )
     player6.create()
     player7 = Player(team_id=team_id,
-                        email="",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="",
                         niveau="novice 3",
-                        number = 00,
+                        number = 47,
                         phone = "",
                         position = "Player",
                         photo_url = "",
     )
     player7.create()
     player8 = Player(team_id=team_id,
-                        email="",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="",
                         niveau="novice 3",
-                        number = 00,
+                        number = 74,
                         phone = "",
                         position = "Player",
                         photo_url = "",
     )
     player8.create()
     player9 = Player(team_id=team_id,
-                        email="",
-                        password="123",
+                        email="@gmail.com",
+                        password="",
                         first_name="",
                         last_name="",
                         niveau="novice 3",
-                        number = 00,
+                        number = 33,
                         phone = "",
                         position = "Player",
                         photo_url = "",
@@ -127,13 +127,13 @@ def create():
     player9.create()
 
 def find_one():
-    player_id = "64f3aaab7b8f47f97ec5935b"
+    player_id = ""
     player_id = ObjectId(player_id)
     player = Player.find_one(player_id).to_dict()
     print(player)
 
 def find_one_by_email():
-    player_email = "olivier@gmail.com"
+    player_email = "@gmail.com"
     player = Player.find_one_by_email(player_email)
     print(player)
 
@@ -153,17 +153,17 @@ def find_all():
 
 
 def update():
-    player_id = "64f3aaab7b8f47f97ec5935b"
+    player_id = ""
     player_id = ObjectId(player_id)
-    team_id = Team.find_one_by_name("Canadiens")._id
+    team_id = Team.find_one_by_name("")._id
     team_id = ObjectId(team_id)
     player_updated_try = Player.find_one(player_id)
-    player_updated_try.first_name = "Olivier"
+    player_updated_try.first_name = ""
     player_updated = Player(team_id=team_id,
-                            email="patate@gmail.com",
-                            password="123",
-                            first_name="Patate",
-                            last_name="Giroux",
+                            email="@gmail.com",
+                            password="",
+                            first_name="",
+                            last_name="",
                             age= 7,
                             number = 11,
                             phone = "",
@@ -174,13 +174,13 @@ def update():
 
 
 def delete():
-    player_id = "64f3aaac7b8f47f97ec59360"
+    player_id = ""
     player_id = ObjectId(player_id)
     Player.delete(player_id)
 
 
 def increment_stats():
-    player_id = "64f3aaab7b8f47f97ec5935b" 
+    player_id = "" 
     player_id = ObjectId(player_id)
     player = Player.find_one(player_id)
     print(player.stats_player.to_dict())
@@ -195,7 +195,7 @@ def increment_stats():
 
 
 
-#create()
+create()
 #find_one()
 #find_one_by_email()
 #find_one_by_number()

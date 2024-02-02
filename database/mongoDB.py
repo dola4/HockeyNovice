@@ -5,7 +5,6 @@ from pymongo.server_api import ServerApi
 def connection():
     client = MongoClient('mongodb://localhost:27017/')
     db = client['ligue_pat']
-    #return db
 
 
     # URI de connexion à MongoDB Atlas

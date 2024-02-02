@@ -3,23 +3,23 @@ from bson.objectid import ObjectId
 from models.Team import Team
 
 def create():
-    team1 = Team(name="PATS")
+    team1 = Team(name="Canadiens")
     team1.create()
 
-    #team2 = Team(name="Maple Leafs")
-    #team2.create()
+    team2 = Team(name="Maple Leafs")
+    team2.create()
 
-    #team3 = Team(name="Oilers")
-    #team3.create()
+    team3 = Team(name="Oilers")
+    team3.create()
 
-    #team4 = Team(name="Jets")
-    #team4.create()
+    team4 = Team(name="Jets")
+    team4.create()
 
-    #team5 = Team(name="Flames")
-    #team5.create()
+    team5 = Team(name="Flames")
+    team5.create()
 
-    #team6 = Team(name="Canucks")
-    #team6.create()
+    team6 = Team(name="Canucks")
+    team6.create()
 
 def find_one():
     team_id  = ""
@@ -45,7 +45,7 @@ def delete():
     print(Team.delete(team_id))
 
 def update_stats():
-    team_id = "64f35d65d651a629fb11d53b" 
+    team_id = "" 
     team_id = ObjectId(team_id)
     team = Team.find_one(team_id)
 
@@ -56,13 +56,13 @@ def update_stats():
         print("Team not found.")
 
 def find_players_by_team():
-    id = "659d6d95437f6c7a9e3c93a0"
+    id = ""
     players = Team.find_players_by_team(id)
     for player in players:
         print(player)
 
 
-#create()
+create()
 #find_one()
 #find_one_by_name()
 #find_all()
