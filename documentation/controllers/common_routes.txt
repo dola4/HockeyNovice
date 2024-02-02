@@ -1,0 +1,41 @@
+Le fichier `common_routes.py` contient des routes pour les fonctionnalités communes à tous les 
+utilisateurs dans une application de gestion de statistiques de hockey. Voici les descriptions des fonctions 
+définies dans ce fichier :
+
+1. `login` :
+   - Route : `/`
+   - Méthodes : GET, POST
+   - Description : Gère la connexion des utilisateurs. En méthode POST, cette fonction vérifie les identifiants 
+   de connexion. Si l'utilisateur est un joueur, il vérifie s'il a des invitations et redirige vers la 
+   confirmation de l'invitation ou vers son profil. Si l'utilisateur est un administrateur, il est redirigé 
+   vers le tableau de bord de l'administrateur. En cas d'échec de connexion, un message d'erreur est renvoyé.
+
+2. `all_teams` :
+   - Route : `/all_teams`
+   - Méthodes : GET
+   - Description : Accessible uniquement si un utilisateur est connecté, cette fonction récupère la 
+   liste de toutes les équipes et affiche la page correspondante. Elle vérifie si l'utilisateur est un joueur 
+   ou un administrateur pour accéder à la page.
+
+3. `team_info` :
+   - Route : `/team_info/<team_id>`
+   - Méthodes : GET
+   - Description : Affiche les informations d'une équipe spécifique et ses joueurs. Cette route nécessite 
+   que l'utilisateur soit connecté pour accéder aux informations.
+
+4. `player_info` :
+   - Route : `/player_info/<player_id>`
+   - Méthodes : GET
+   - Description : Affiche les informations d'un joueur spécifique et de son équipe. L'accès est également 
+   restreint aux utilisateurs connectés.
+
+5. `deconnect` :
+   - Route : `/deconnect`
+   - Méthodes : GET
+   - Description : Permet à un utilisateur de se déconnecter en effaçant la session et en redirigeant vers 
+   la page de connexion.
+
+Chacune de ces routes intègre une logique de vérification de session pour s'assurer que l'utilisateur 
+est authentifié et a le droit d'accéder aux fonctionnalités requises. Si l'utilisateur n'est pas 
+authentifié, il est redirigé vers la page de connexion. Les templates HTML associés à chaque route fournissent 
+l'interface utilisateur pour la visualisation et la gestion des informations.

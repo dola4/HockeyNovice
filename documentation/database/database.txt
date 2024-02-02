@@ -1,0 +1,50 @@
+La base de données est structurée en plusieurs tables liées entre elles pour gérer les informations 
+d'une ligue de hockey. Voici une description de chaque table et leurs relations :
+
+1. **Player (Joueur)**
+   - Contient des informations sur les joueurs avec des champs pour l'identifiant unique (id), 
+   l'équipe (team_id, une clé étrangère), l'email, le mot de passe, le prénom, le nom, le niveau, 
+   le numéro, le téléphone, la position et une URL de photo.
+   - Elle a une relation avec la table "Team" (équipe à laquelle le joueur appartient), la table "Invitation" 
+   (invitations reçues par le joueur), et génère des données pour les tables "StatsPlayer" et "StatsGoaler" 
+   (statistiques du joueur et du gardien de but).
+
+2. **Admin (Administrateur)**
+   - Contient les informations de connexion des administrateurs avec des champs pour l'identifiant unique, 
+   l'email et le mot de passe.
+   - Cette table génère des informations pour la table "Player".
+
+3. **Team (Équipe)**
+   - Stocke les informations sur les équipes avec des champs pour l'identifiant unique et le nom de l'équipe.
+   - Elle a une relation avec la table "Player" (les joueurs appartenant à l'équipe), la table "Game" 
+   (jeux programmés par l'équipe) et la table "StatsTeam" (statistiques de l'équipe).
+
+4. **Game (Jeu)**
+   - Détient des informations sur les matchs, y compris l'identifiant unique, l'équipe (team_id), 
+   l'opposant, la date et l'heure.
+   - Elle enregistre des informations pour la table "StatsGame" (statistiques du jeu).
+
+5. **Invitation**
+   - Gère les invitations envoyées aux joueurs, avec des champs pour l'identifiant unique, 
+   le joueur (player_id), le jeton d'invitation, la date et le statut de l'invitation.
+
+6. **StatsPlayer (Statistiques du Joueur)**
+   - Contient des statistiques détaillées des joueurs avec des champs pour l'identifiant unique, 
+   le joueur (player_id), les jeux joués, les buts, les assistances et les tirs.
+
+7. **StatsGoaler (Statistiques du Gardien de But)**
+   - Similaire à "StatsPlayer", mais spécifique aux gardiens de but, avec des champs pour l'identifiant 
+   unique, le joueur (player_id), les jeux joués, les victoires et les défaites.
+
+8. **StatsTeam (Statistiques de l'Équipe)**
+   - Stocke les statistiques de l'équipe, avec des champs pour l'équipe (team_id), les victoires, 
+   les défaites et les défaites en prolongation.
+
+9. **StatsGame (Statistiques du Jeu)**
+   - Enregistre les résultats des matchs, avec des champs pour l'identifiant unique, le jeu (game_id), 
+   le joueur (player_id), le score de l'équipe, et le score de l'opposant.
+
+Chaque table est connectée via des clés étrangères et chaque table contient un 
+champ pour une clé primaire garantissant l'unicité de chaque enregistrement. Cette 
+structure permet une gestion complexe des données dans le cadre de la ligue, offrant un suivi des performances 
+individuelles et d'équipe ainsi que la gestion des événements et des participants.

@@ -1,0 +1,44 @@
+La classe `StatsPlayer` est conçue pour gérer les statistiques individuelles des joueurs dans une l'application.
+Voici une description détaillée de ses attributs et méthodes :
+
+### Attributs de `StatsPlayer` :
+- games_played : Nombre de matchs joués par le joueur.
+- goals : Nombre total de buts marqués par le joueur.
+- assists : Nombre total d'assistances réalisées par le joueur.
+- shots : Nombre total de tirs effectués par le joueur.
+- faceoff_played : Nombre de mises en jeu auxquelles le joueur a participé.
+- faceoff_win : Nombre de mises en jeu gagnées par le joueur.
+- turnovers : Nombre total de pertes de balle par le joueur.
+- **penalty_minutes** : Nombre total de minutes de pénalité accumulées par le joueur.
+- time_on_ice : Temps total passé sur la glace par le joueur.
+- blocked_shots : Nombre total de tirs bloqués par le joueur.
+- plus_minus : Statistique plus/moins indiquant l'efficacité du joueur sur la glace.
+
+### Propriétés calculées :
+- points : Calcule le total de points basé sur les buts et les assistances.
+- shots_per_match : Calcule la moyenne de tirs par match.
+- goals_per_match : Calcule la moyenne de buts par match.
+- faceoff_percentage : Calcule le pourcentage de mises en jeu gagnées.
+- penalty_per_match : Calcule la moyenne de minutes de pénalité par match.
+
+### Méthodes :
+- to_dict() : Convertit l'instance de `StatsPlayer` en un dictionnaire, permettant une sérialisation facile 
+pour le stockage dans une base de données ou pour d'autres utilisations.
+  
+- from_dict(data) : Méthode de classe qui crée une nouvelle instance de `StatsPlayer` à partir d'un 
+dictionnaire de données, facilitant la désérialisation des données stockées.
+  
+- increment_stat(stat_type) : Incrémente de 1 la statistique spécifiée par `stat_type`. Cette méthode est
+ utile pour mettre à jour les statistiques d'un joueur suite à un événement de jeu.
+  
+- decrement_stat(stat_type) : Décrémente de 1 la statistique spécifiée par `stat_type`, à condition que la 
+valeur actuelle de la statistique soit supérieure à 0. Cette méthode est particulièrement pertinente pour ajuster 
+les statistiques en cas d'erreur ou de retrait d'une action de jeu.
+
+### Utilisation et Flexibilité
+Cette classe offre une structure robuste pour le suivi des performances des joueurs au fil des matchs, avec 
+des mécanismes pour facilement mettre à jour, sérialiser et désérialiser les statistiques. Les méthodes 
+`increment_stat` et `decrement_stat` apportent une grande flexibilité pour ajuster les statistiques en 
+temps réel, tandis que les propriétés calculées fournissent des insights précieux sur la performance 
+du joueur sans nécessiter de calculs supplémentaires lors de chaque requête.
+

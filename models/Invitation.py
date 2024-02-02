@@ -1,8 +1,8 @@
 from database.mongoDB import connection
 from bson.objectid import ObjectId, InvalidId
 from twilio.rest import Client
+from datetime import datetime, timedelta
 
-from datetime import datetime
 
 db = connection()
 
@@ -25,14 +25,13 @@ class Invitation:
         }
     
     def from_dict(self, invitation_dict):
-        return {
-            "_id": invitation_dict["_id"],
-            "player_id": invitation_dict["player_id"],
-            "token": invitation_dict["token"],
-            "date": invitation_dict["date"],
-            "status": invitation_dict["status"]
-        }
+        self._id = invitation_dict["team_id"]
+        self.player_id = invitation_dict["player_id"]
+        self.token = invitation_dict["token"]
+        self.date = invitation_dict["date"]
+        self.status = invitation_dict["status"]
         
+        return self
     
     
     def create(self):
@@ -51,25 +50,19 @@ class Invitation:
         
     def find_one(self, invitation_id):
         try:
-            invitation = db.invitations.find_one({"_id": invitation_id})
+            invitation = db.invitations.find_one({"_id": ObjectId(invitation_id)})
             if invitation:
-                invitation = invitation.from_dict(invitation)
-                return invitation
+                return self.from_dict(invitation)  # Utilisez self pour créer une instance de Invitation
             else:
                 return None
         except Exception as e:
             print(e)
             return None
-              
         
     def find_all(self):
         try:
             invitations = db.invitations.find()
-            if invitations:
-                invitations = [invitation.from_dict(invitation) for invitation in invitations]
-                return invitations
-            else:
-                return None
+            return [self.from_dict(invitation) for invitation in invitations]  # Instanciez les objets Invitation
         except Exception as e:
             print(e)
             return None
@@ -109,13 +102,16 @@ class Invitation:
     @classmethod
     def check_state(cls, player_id):
         try:
-            invitation = db.invitations.find_one({"player_id": player_id})
-            if invitation:
+            invitation_dict = db.invitations.find_one({"player_id": ObjectId(player_id)})
+            if invitation_dict:
+                invitation = cls.from_dict(invitation_dict)  # Instanciez un objet Invitation
                 if invitation.status == "envoye":
-                    if invitation.date + 5 > datetime.date.today():
+                    # Utilisez timedelta pour ajouter 5 jours à la date de l'invitation et comparez-la à la date actuelle
+                    if invitation.date + timedelta(days=5) < datetime.now().date():
                         invitation.status = "expire"
-                        return invitation["status"]
-                return invitation["status"]
+                        invitation.update()  # Mettez à jour l'invitation dans la base de données
+                        return "expire"
+                return invitation.status
             else:
                 return None
         except Exception as e:

@@ -6,6 +6,8 @@ from .StatsPlayer import StatsPlayer
 from .StatsGoaler  import StatsGoaler
 
 from .Player import Player
+from .Game import Game
+
 
 
 db = connection()
@@ -54,20 +56,23 @@ class StatsGame:
             result = db.stats_game.update_one({'_id': ObjectId(self._id)}, {'$set': self.to_dict()})
             return result.modified_count > 0
         
-    def update_team_stats(self):
-        from .Game import Game
-        
+    def update_team_stats(self):  
         team = Game.find_team_game(self.game_id)
         team_stat = team.stats_team
         player = Player.find_one(self.player_id)
         player_stat = player.stats_player
-        
+    
+        # Mise à jour des statistiques de l'équipe en fonction du score
         if self.team_score > self.opponent_score:
             team_stat.increment_stat("victory")
-        if self.team_score < self.opponent_score:
+        elif self.team_score < self.opponent_score:
             team_stat.increment_stat("defeat")
-        if self.team_score == self.opponent_score:
+        else:  # self.team_score == self.opponent_score
             team_stat.increment_stat("defeat_in_OT")
+    
+        # Sauvegarde des modifications des statistiques de l'équipe
+        team.save()  # Assurez-vous que cette méthode existe dans la classe de l'équipe
+
         
 
     @classmethod

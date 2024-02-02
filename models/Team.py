@@ -29,7 +29,20 @@ class Team:
         self.stats_team = StatsTeam().from_dict(team_dict["stats_team"])
         self._id = team_dict.get("_id", None)
         return self
-    
+
+    def save(self):
+        # Sauvegarde ou met à jour l'objet Team dans la base de données.
+        team_dict = self.to_dict()
+        if self._id is None:
+            # C'est un nouvel objet Team, donc insérez-le dans la base de données.
+            result = db.teams.insert_one(team_dict)
+            self._id = result.inserted_id  # Mettez à jour l'identifiant de l'objet avec celui généré par MongoDB.
+            return True
+        else:
+            # L'objet Team existe déjà, donc mettez-le à jour.
+            result = db.teams.update_one({"_id": ObjectId(self._id)}, {"$set": team_dict})
+            return result.modified_count > 0     
+
 
     def create(self):
         try:

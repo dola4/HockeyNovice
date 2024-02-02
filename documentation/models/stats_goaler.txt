@@ -1,0 +1,41 @@
+La classe `StatsGoaler` est conçue pour gérer les statistiques des gardiens de but. 
+Voici une explication détaillée de ses composants :
+
+### Attributs
+- games_played : Nombre de matchs joués.
+- wins : Nombre de victoires.
+- losses : Nombre de défaites.
+- shot_against : Nombre de tirs reçus.
+- save : Nombre d'arrêts réalisés.
+- goals_given : Nombre de buts encaissés.
+- time_on_ice : Temps passé sur la glace.
+- goals : Buts marqués (peu commun pour un gardien de but, mais possible).
+- assists : Aides (passes décisives).
+- penalty_minutes : Minutes de pénalité.
+
+### Méthodes et Propriétés
+- points : Calcule le total de points basé sur les buts et les aides.
+- points_per_match : Moyenne de points par match.
+- goals_against_average : Moyenne de buts encaissés par tir reçu.
+- goals_against_per_match : Moyenne de buts encaissés par match.
+- save_percentage : Pourcentage d'arrêts par rapport aux tirs reçus.
+- save_per_match : Moyenne d'arrêts par match.
+- penalty_per_match : Moyenne de minutes de pénalité par match.
+
+### Méthodes supplémentaires
+- to_dict() : Convertit les statistiques de l'objet en un dictionnaire, utile pour la 
+sérialisation ou l'enregistrement dans une base de données.
+- from_dict(data) : Méthode de classe permettant de créer une instance de `StatsGoaler` 
+à partir d'un dictionnaire. Cette fonction est utile pour la désérialisation ou la création 
+d'objets à partir de données stockées.
+- increment_stat(stat_type) : Incrémente de 1 la statistique spécifiée par `stat_type`.
+- decrement_stat(stat_type) : Décrémente de 1 la statistique spécifiée par `stat_type`, 
+avec une vérification pour s'assurer que la statistique ne devienne pas négative.
+
+### Utilisation et Flexibilité
+Cette classe est fortement orientée vers la flexibilité et la réutilisabilité, permettant d'ajuster 
+facilement les statistiques d'un gardien de but en fonction de l'évolution de sa performance au cours 
+d'une saison ou d'un match. Les méthodes `increment_stat` et `decrement_stat` offrent une interface 
+simple pour modifier les statistiques, tandis que les propriétés calculées fournissent des insights 
+précieux sur la performance sans nécessiter de stockage ou de calculs redondants.
+

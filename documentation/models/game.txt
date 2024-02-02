@@ -1,0 +1,32 @@
+La classe `Game` est conçue pour représenter une partie dans la base de données MongoDB, en interagissant 
+avec celle-ci pour créer, lire, mettre à jour et supprimer des données concernant des jeux. 
+Voici une description de ses attributs et méthodes :
+
+Attributs de `Game`:
+- `_id` : L'identifiant unique de la partie dans la base de données (peut être `None` si la partie n'a pas encore 
+été enregistrée).
+- `team_id` : L'identifiant de l'équipe organisatrice de la partie.
+- `opponent` : Le nom de l'équipe adverse.
+- `date` : La date prévue pour la partie.
+- `time` : L'heure prévue pour la partie.
+
+Méthodes de `Game`:
+- `to_dict()`: Retourne un dictionnaire représentant les données de la partie, utile pour les opérations de 
+base de données.
+- `from_dict(game_dict)`: Met à jour les attributs de l'instance à partir d'un dictionnaire et retourne 
+l'instance mise à jour.
+- `save()`: Enregistre la partie dans la base de données, soit en insérant un nouveau document si `_id` est `None`, 
+soit en mettant à jour un document existant. Retourne un booléen indiquant le succès de l'opération.
+- `find_game(_id)`: Recherche une partie par son identifiant et la retourne comme une nouvelle instance 
+de `Game` si trouvée.
+- `find_team()`: Recherche et retourne l'équipe organisatrice de la partie en utilisant l'attribut `team_id`.
+- `find_all_games_for_team(cls, team_id)`: Méthode de classe qui recherche toutes les parties pour une équipe 
+donnée et les retourne sous forme de liste d'instances de `Game`.
+- `find_stats_for_game(cls, game_id)`: Méthode de classe qui recherche les statistiques d'une partie 
+spécifique en utilisant l'identifiant de la partie. Elle retourne une liste de dictionnaires avec les 
+informations des joueurs et leurs statistiques.
+- `delete()`: Supprime la partie de la base de données en utilisant son identifiant `_id`. Retourne un booléen 
+indiquant le succès de l'opération.
+
+Le code importe également les classes `Team` et `Player` pour permettre l'accès aux données liées aux équipes 
+et aux joueurs.

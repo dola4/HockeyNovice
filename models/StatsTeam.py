@@ -22,11 +22,16 @@ class StatsTeam:
             "points": self.points
         }
 
-    def from_dict(self, stat_dict):
-        self.victory = stat_dict.get("victory", 0)
-        self.defeat = stat_dict.get("defeat", 0)
-        self.defeat_in_OT = stat_dict.get("defeat_in_OT", 0)
-        return self
+    @classmethod
+    def from_dict(cls, data):
+        victory = data.get('victory', 0)
+        defeat = data.get("defeat", 0)
+        defeat_in_OT = data.get("defeat_in_OT", 0)
+        return cls(
+            victory=victory,
+            defeat=defeat,
+            defeat_in_OT=defeat_in_OT
+        )
 
     def increment_stat(self, stat_type):
         if hasattr(self, stat_type):

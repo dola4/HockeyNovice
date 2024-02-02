@@ -1,7 +1,0 @@
-[{
-  "_id": {
-    "$oid": "64f33ffb55ce8f2eb3019366"
-  },
-  "email": "youppie@gmail.com",
-  "password": "pbkdf2:sha256:260000$B5Ut8uGphAwusxrj$0b97178a19af955876f5dea27f99ed9910dc057cdf30aa8997c5ae1fcc769627"
-}]

@@ -1,0 +1,46 @@
+La classe `Player` joue un rôle central dans la gestion des joueurs au sein de l'application, 
+facilitant l'enregistrement, la mise à jour, et la consultation des informations relatives aux joueurs. 
+Voici une description détaillée de ses attributs et méthodes :
+
+**Attributs de `Player` :**
+- `team_id` : Identifiant de l'équipe à laquelle appartient le joueur, 
+permettant de lier le joueur à une équipe spécifique.
+- `email` : Adresse email du joueur, utilisée comme identifiant unique pour la connexion.
+- `password` : Mot de passe du joueur, stocké sous une forme hachée pour des raisons de sécurité.
+- `first_name` : Prénom du joueur.
+- `last_name` : Nom de famille du joueur.
+- `niveau` : Niveau ou catégorie du joueur au sein de l'équipe.
+- `number` : Numéro du joueur, souvent utilisé pour l'identifier sur la patinoire.
+- `phone` : Numéro de téléphone du joueur, utilisé pour des notifications ou communications directes.
+- `position` : Position ou rôle du joueur dans l'équipe.
+- `photo_url` : URL vers une photo du joueur.
+- `stats_player` : Statistiques associées au joueur en tant que joueur.
+- `stats_goaler` : Statistiques associées au joueur en tant que gardien de but.
+- `_id` : Identifiant unique du joueur dans la base de données MongoDB.
+
+**Méthodes de `Player` :**
+- `to_dict()` : Convertit les informations du joueur en un dictionnaire, facilitant les interactions 
+avec la base de données.
+- `to_session_dict()` : Génère une version simplifiée du dictionnaire du joueur pour la session, adaptée pour 
+le stockage dans une session web.
+- `from_dict(player_dict)` : Initialise un objet `Player` à partir d'un dictionnaire, permettant de reconstruire 
+un objet joueur à partir de données de base de données.
+- `create()` : Enregistre un nouveau joueur dans la base de données, génère un token d'invitation, 
+et envoie une invitation par SMS au joueur.
+- `find_one(player_id)` : Recherche et renvoie un joueur spécifique en utilisant son identifiant unique.
+- `find_players_by_team(team_id)` : Récupère tous les joueurs appartenant à une équipe spécifique.
+- `find_one_by_email(email)` : Trouve un joueur en utilisant son adresse email.
+- `find_one_by_number(number)` : Recherche un joueur par son numéro.
+- `find_all()` : Récupère tous les joueurs enregistrés dans la base de données.
+- `update()` : Met à jour les informations d'un joueur existant dans la base de données.
+- `delete()` : Supprime un joueur de la base de données.
+- `increment_player_stat(stat_type)` : Incrémente une statistique spécifique pour le joueur.
+- `decrement_player_stat(stat_type)` : Décrémente une statistique spécifique pour le joueur.
+- `increment_goaler_stat(stat_type)` : Incrémente une statistique spécifique pour le gardien.
+- `decrement_goaler_stat(stat_type)` : Décrémente une statistique spécifique pour le gardien.
+- `update_player_stats(operation, stat_type)` : Met à jour les statistiques d'un joueur en fonction de 
+l'opération (incrémentation ou décrémentation) et du type de statistique.
+
+Cette classe est essentielle pour la gestion des joueurs, offrant une interface complète pour la 
+manipulation des données des joueurs, y compris la gestion des statistiques et l'interaction avec d'autres 
+entités telles que les équipes et les invitations.

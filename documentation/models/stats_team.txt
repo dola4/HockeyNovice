@@ -1,0 +1,21 @@
+La classe StatsTeam est conçue pour gérer les statistiques d'équipes , focalisant sur les victoires, 
+les défaites, et les défaites en prolongation (OT). Voici un examen détaillé de ses composants principaux :
+
+Attributs de StatsTeam :
+victory : Nombre de victoires de l'équipe.
+defeat : Nombre de défaites de l'équipe.
+defeat_in_OT : Nombre de défaites de l'équipe en prolongation.
+
+Propriétés Calculées :
+points : Calcule le total de points de l'équipe, en attribuant 2 points par victoire et 1 point par 
+défaite en OT. Cette propriété fournit un moyen rapide et simple d'évaluer la performance de l'équipe.
+
+Méthodes :
+to_dict() : Convertit les statistiques de l'équipe en format dictionnaire, ce qui facilite le stockage des 
+données, la sérialisation ou la génération de réponses API.
+from_dict(stat_dict) : Permet l'instanciation ou la mise à jour des statistiques de l'équipe à partir d'un 
+dictionnaire.
+increment_stat(stat_type) : Augmente de 1 le compte d'une statistique spécifiée, si cette statistique existe.
+ C'est utile pour mettre à jour les statistiques de l'équipe en temps réel.
+decrement_stat(stat_type) : Diminue de 1 le compte d'une statistique spécifiée, si possible. 
+Cela permet de faire des corrections en cas d'erreurs d'enregistrement.

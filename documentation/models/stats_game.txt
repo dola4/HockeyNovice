@@ -1,0 +1,42 @@
+La classe `StatsGame` est conçue pour gérer les statistiques des matchs au sein de l'application, offrant une 
+structure pour enregistrer, mettre à jour, et consulter les performances des joueurs et des équipes lors 
+des matchs. Voici une analyse détaillée de ses attributs et méthodes :
+
+**Attributs de `StatsGame` :**
+- `_id` : Identifiant unique de l'enregistrement des statistiques du match dans la base de données MongoDB.
+- `player_id` : Identifiant du joueur associé à ces statistiques.
+- `game_id` : Identifiant du match auquel ces statistiques se rapportent.
+- `team_score` : Score final de l'équipe du joueur pour ce match.
+- `opponent_score` : Score final de l'équipe adverse pour ce match.
+- `stats_game_player` : Instance de `StatsPlayer` contenant les statistiques spécifiques du joueur pour ce match.
+- `stats_game_goaler` : Instance de `StatsGoaler` contenant les statistiques spécifiques du gardien de but pour ce match.
+
+**Méthodes de `StatsGame` :**
+- `to_dict()` : Convertit l'instance de `StatsGame` en un dictionnaire pour faciliter l'interaction avec 
+la base de données MongoDB. Cette méthode est essentielle pour l'insertion et la mise à jour des données 
+dans la base de données.
+  
+- `from_dict(stats_game_dict)` : Initialise et retourne une instance de `StatsGame` à partir d'un dictionnaire, 
+permettant la reconstruction d'un objet `StatsGame` à partir des données extraites de la base de données.
+  
+- `save()` : Enregistre ou met à jour l'instance de `StatsGame` dans la base de données. Si l'instance est 
+nouvelle (sans `_id`), elle est insérée dans la base de données, sinon les données existantes sont mises à jour.
+  
+- `update_team_stats()` : Met à jour les statistiques de l'équipe basées sur le score du match.
+  
+- `find_or_create(cls, player_id, game_id)` : Recherche dans la base de données une instance de `StatsGame` 
+correspondant à un `player_id` et un `game_id` spécifiques. Si aucune instance n'est trouvée, une nouvelle 
+instance est créée avec des scores initiaux de 0.
+  
+- `update_stat(is_goaler, operation, stat_type)` : Met à jour une statistique spécifique pour le joueur ou le 
+gardien de but. Cette méthode détermine d'abord si les statistiques à mettre à jour sont pour un joueur ou un 
+gardien, puis applique l'opération spécifiée (incrémentation ou décrémentation) sur le type de statistique donné.
+  
+- `delete()` : Supprime l'instance de `StatsGame` de la base de données en utilisant son `_id`. Cette méthode 
+est utile pour gérer les cas où les statistiques d'un match doivent être retirées de la base de données, 
+par exemple en cas d'erreur ou de suppression d'un match.
+
+Cette classe fournit une gestion complète des statistiques de match, permettant d'enregistrer avec précision 
+les performances des joueurs et des équipes, tout en offrant la flexibilité nécessaire pour mettre à jour 
+ou supprimer ces statistiques selon les besoins. Elle joue un rôle crucial dans l'analyse des performances 
+au sein de l'application de gestion sportive.

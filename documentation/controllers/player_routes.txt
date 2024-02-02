@@ -1,0 +1,49 @@
+Le fichier `player_routes.py` contient des routes pour les fonctionnalités relatives aux joueurs dans 
+l'application. Voici les fonctions définies dans ce fichier :
+
+1. `player_profil` :
+   - Route: `/player_profil/<string:player_id>`
+   - Méthodes: GET
+   - Description: Affiche le profil d'un joueur. Si l'identifiant du joueur est enregistré dans la session, 
+   les informations du joueur et de son équipe sont récupérées et envoyées au template `player_profil.html`. 
+   Si l'utilisateur n'est pas dans la session, il est redirigé vers la page de connexion.
+
+2. `edit_info` :
+   - Route: `/edit_info/<string:player_id>`
+   - Méthodes: GET, POST
+   - Description: Permet à un joueur de modifier ses informations personnelles. En méthode POST, 
+   les informations comme le prénom, le nom, l'email, et le téléphone sont mises à jour, et la photo de profil 
+   peut être changée. Après la mise à jour, une redirection est effectuée vers le profil du joueur. 
+   En méthode GET, le template `edit_info.html` est servi avec les informations actuelles du joueur. 
+   L'accès est restreint aux joueurs connectés.
+
+3. `change_password` :
+   - Route: `/change_password/<string:player_id>`
+   - Méthodes: GET, POST
+   - Description: Permet à un joueur de changer son mot de passe. En méthode POST, le mot de passe actuel est 
+   vérifié, et si la confirmation du nouveau mot de passe est correcte, 
+   le mot de passe est mis à jour. La session est également mise à jour. Si les mots de passe ne correspondent 
+   pas ou si le mot de passe actuel est incorrect, un message d'erreur est renvoyé au 
+   template `change_password.html`. En méthode GET, le template est servi pour permettre au joueur de 
+   saisir les informations nécessaires au changement de mot de passe.
+
+4. `confirm_invitation` :
+   - Route: `/confirm_invitation/<string:player_id>`
+   - Méthodes: GET, POST
+   - Description: Permet à un joueur de confirmer une invitation en utilisant un token. En méthode POST, 
+   si le token est valide et le nouveau mot de passe est confirmé (et différent de l'initial), 
+   le mot de passe est mis à jour et l'invitation est marquée comme acceptée. L'utilisateur est ensuite 
+   connecté et redirigé vers son profil. En méthode GET, le template `confirm_invitation.html` 
+   est servi pour permettre au joueur de saisir les informations nécessaires.
+
+5. `contact_admin` :
+   - Route: `/contact_admin/`
+   - Méthodes: GET
+   - Description: Affiche un formulaire de contact pour l'administrateur. C'est une route GET 
+   simple qui sert le template `contact_admin.html`.
+
+Chaque route contient une logique pour s'assurer que l'utilisateur est authentifié et a les droits 
+nécessaires pour accéder à la fonctionnalité en question. Si l'utilisateur n'est pas authentifié, 
+il est redirigé vers la page de connexion. Les templates associés à chaque route sont situés dans un 
+dossier `client` pour les vues relatives aux joueurs et `common` pour les vues partagées entre différents 
+types d'utilisateurs.

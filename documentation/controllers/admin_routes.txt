@@ -1,0 +1,80 @@
+Le fichier admin_routes.py définit un ensemble de routes pour gérer les actions d'administration dans 
+l'application. Voici une description de chaque fonction (route) :
+
+1. **admin_dashboard**:
+   - Route: `/admin_dashboard`
+   - Méthodes: GET, POST
+   - Fonction: Si un administrateur est connecté, récupère et affiche toutes les équipes. 
+   Sinon, redirige vers la page de connexion.
+
+2. **admin_team**:
+   - Route: `/admin_team/<string:team_id>`
+   - Méthodes: GET, POST
+   - Fonction: Si un administrateur est connecté, récupère et affiche les informations d'une équipe spécifique, 
+   les joueurs de cette équipe, et les matchs planifiés. Sinon, redirige vers la page de connexion.
+
+3. **played_match**:
+   - Route: `/played_match/<string:game_id>`
+   - Méthodes: GET
+   - Fonction: Récupère et affiche les statistiques des joueurs pour un match joué. Si le match n'est pas 
+   trouvé, renvoie une erreur 404.
+
+4. **admin_player**:
+   - Route: `/admin_player/<string:player_id>`
+   - Méthodes: GET, POST
+   - Fonction: Si un administrateur est connecté, récupère et affiche les informations d'un joueur spécifique 
+   et de son équipe. Sinon, redirige vers la page de connexion.
+
+5. **gameOn**:
+   - Route: `/gameOn/<string:team_id>`
+   - Méthodes: GET, POST
+   - Fonction: Si un administrateur est connecté et que la méthode est POST, crée un nouveau match pour une 
+   équipe et sélectionne les joueurs pour ce match. Si la méthode est GET, affiche les joueurs à sélectionner 
+   pour un match. Sinon, redirige vers la page de connexion.
+
+6. **update_player_stats**:
+   - Route: `/update_player_stats`
+   - Méthodes: POST
+   - Fonction: Met à jour les statistiques d'un joueur ou d'un gardien de but pour un match donné. 
+   Renvoie un JSON indiquant le succès ou un code d'erreur si le joueur n'est pas trouvé.
+
+7. **create_team**:
+   - Route: `/create_team`
+   - Méthodes: GET, POST
+   - Fonction: Si un administrateur est connecté et que la méthode est POST, crée une nouvelle équipe avec 
+   le nom fourni. Sinon, affiche le formulaire de création d'équipe. Si non connecté, redirige vers la page 
+   de connexion.
+
+8. **edit_team**:
+   - Route: `/edit_team/<string:team_id>`
+   - Méthodes: GET, POST
+   - Fonction: Si un administrateur est connecté et que la méthode est POST, 
+   met à jour les informations d'une équipe. Sinon, affiche le formulaire d'édition d'équipe. 
+   Si non connecté, redirige vers la page de connexion.
+
+9. **delete_team**:
+   - Route: `/delete_team/<string:team_id>`
+   - Méthodes: POST
+   - Fonction: Si un administrateur est connecté, supprime une équipe et redirige vers le tableau de bord. 
+   Si non connecté, redirige vers la page de connexion.
+
+10. **create_player**:
+    - Route: `/create_player/<string:team_id>`
+    - Méthodes: GET, POST
+    - Fonction: Si un administrateur est connecté et que la méthode est POST, crée un nouveau joueur avec 
+    les informations fournies. Sinon, affiche le formulaire de création de joueur. Si non connecté, 
+    redirige vers la page de connexion.
+
+11. **edit_player**:
+    - Route: `/edit_player/<string:player_id>`
+    - Méthodes: GET, POST
+    - Fonction: Si un administrateur est connecté et que la méthode est POST, met à jour les 
+    informations d'un joueur. Sinon, affiche le formulaire d'édition de joueur. Si non connecté, 
+    redirige vers la page de connexion.
+
+12. **delete_player**:
+    - Route: `/delete_player/<string:player_id>`
+    - Méthodes: GET, POST
+    - Fonction: Si un administrateur est connecté, supprime un joueur et redirige vers la page de l'équipe. 
+    Si le joueur n'est pas trouvé, renvoie une erreur 404. Si non connecté, redirige vers la page de connexion.
+

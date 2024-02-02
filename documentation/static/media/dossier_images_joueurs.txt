@@ -1,0 +1,4 @@
+Lorsqu'un admin ou un joueur change la photo de profil d'un 'Player', l'ancienne photo est enregistrée dans le 
+dossier 'media/ancienne_images_joueurs', et la nouvelle (ou la première) est enregistrée dans 
+'media/images_joueurs'. Cette manière de procéder permet à un 'Admin' de changer une photo inappropriée 
+d'un joueur et d'en garder une trace.

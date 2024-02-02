@@ -1,0 +1,54 @@
+La classe `Team` est conçue pour gérer les informations et les opérations liées aux équipes dans la base 
+de données. Voici une explication détaillée de ses composants et méthodes :
+
+ Attributs
+- `self._id`: Identifiant unique de l'équipe, généralement attribué par MongoDB lors de la création 
+d'un nouveau document.
+- `self.name`: Le nom de l'équipe.
+- `self.stats_team`: Une instance de `StatsTeam` qui contient les statistiques de l'équipe.
+- `self.players`: Une liste qui sera utilisée pour stocker les informations des joueurs appartenant à l'équipe.
+
+ Méthodes
+
+- to_dict(self) : Convertit l'instance de l'équipe en un dictionnaire, utile pour la sérialisation avant 
+de la stocker dans MongoDB.
+
+- from_dict(self, team_dict) : Initialise les attributs de l'instance avec les valeurs fournies dans un 
+dictionnaire, permettant de créer une instance à partir de données récupérées de MongoDB.
+
+- save(self) : Sauvegarde ou met à jour l'instance de l'équipe dans la base de données MongoDB. 
+Si l'équipe est nouvelle (sans `_id`), elle est insérée dans la base de données. Sinon, l'entrée existante 
+est mise à jour.
+
+- create(self) : Tente de créer une nouvelle équipe dans la base de données, après avoir vérifié qu'une 
+équipe portant le même nom n'existe pas déjà.
+
+- fetch_players(self) : Récupère les joueurs associés à l'équipe depuis la base de données et les stocke 
+dans la liste `self.players`.
+
+- find_one(cls, team_id) : Méthode de classe qui cherche une équipe par son identifiant et retourne une instance 
+de `Team` si trouvée.
+
+- find_players_by_team(cls, team_id) : Méthode de classe qui récupère tous les joueurs d'une équipe 
+spécifique et les retourne sous forme d'instances de `Player`.
+
+- find_one_by_name(cls, name) : Méthode de classe qui cherche une équipe par son nom et retourne une 
+instance de `Team` si trouvée.
+
+- find_all(cls) : Méthode de classe qui récupère toutes les équipes de la base de données et les retourne 
+sous forme d'une liste d'instances de `Team`.
+
+- update(self, team_id) : Met à jour le nom de l'équipe dans la base de données MongoDB.
+
+- delete(cls, team_id) : Méthode de classe pour supprimer une équipe de la base de données par son identifiant.
+
+- increment_stat(self, stat_type) : Incremente une statistique spécifiée pour l'équipe.
+
+- decrement_stat(self, stat_type) : Décremente une statistique spécifiée pour l'équipe.
+
+- update_stats(self, stat_type, operation) : Met à jour les statistiques de l'équipe en fonction de 
+l'opération spécifiée (`increment` ou `decrement`), et met à jour la base de données avec les nouvelles valeurs.
+
+Cette classe est essentielle pour gérer les données des équipes dans l'application, 
+permettant de créer, lire, mettre à jour, et supprimer des équipes, ainsi que de gérer leurs statistiques et 
+les joueurs qui leur sont associés.

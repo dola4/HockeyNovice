@@ -1,0 +1,42 @@
+La classe `Invitation` est spécifiquement conçue pour gérer le processus d'invitation des joueurs dans 
+l'application de gestion de jeu, facilitant la communication et l'enregistrement des utilisateurs à travers 
+la base de données MongoDB. Cette classe encapsule les détails et les opérations liées aux invitations, 
+permettant une interaction structurée et sécurisée entre les joueurs et le jeu. Voici une analyse détaillée de 
+ses composants et fonctionnalités :
+
+**Attributs de `Invitation` :**
+- `_id` : Identifiant unique de l'invitation, généré par MongoDB lors de la création d'une nouvelle invitation.
+- `player_id` : Identifiant du joueur auquel l'invitation est destinée, établissant une relation directe 
+entre l'invitation et le joueur.
+- `token` : Un jeton unique associé à chaque invitation, utilisé pour valider l'invitation lors de 
+son acceptation par le joueur.
+- `date` : La date à laquelle l'invitation a été créée ou envoyée, permettant de suivre la validité de l'invitation.
+- `status` : Le statut de l'invitation, qui peut être "envoyé", "accepté", ou "expiré", fournissant un 
+aperçu de l'état actuel de l'invitation.
+
+**Méthodes de `Invitation` :**
+- `to_dict()` : Convertit les attributs d'une invitation en un dictionnaire, simplifiant l'interaction 
+avec la base de données pour les opérations CRUD.
+- `from_dict(invitation_dict)` : Initialise et retourne une instance de `Invitation` basée sur un dictionnaire 
+d'informations, permettant une reconstruction facile de l'objet à partir des données de la base de données.
+- `create()` : Crée et insère une nouvelle invitation dans la base de données, assignant automatiquement 
+un identifiant unique à l'invitation.
+- `find_one(invitation_id)` : Recherche et retourne une invitation spécifique basée sur son identifiant 
+unique, permettant l'accès à des invitations individuelles.
+- `find_all()` : Récupère toutes les invitations stockées dans la base de données, offrant une vue d'ensemble des invitations en cours.
+- `find_one_by_player(cls, player_id)` : Trouve et retourne une invitation associée à un identifiant 
+de joueur spécifique, facilitant la gestion des invitations par joueur.
+- `update()` : Met à jour les informations d'une invitation existante dans la base de données, 
+permettant de modifier le statut de l'invitation ou d'autres champs pertinents.
+- `delete(invitation_id)` : Supprime une invitation spécifique de la base de données, nettoyant les 
+invitations qui ne sont plus nécessaires ou valides.
+- `check_state(cls, player_id)` : Vérifie et met à jour le statut d'une invitation en fonction de la date 
+actuelle et de la date d'expiration prévue, garantissant que les invitations expirées sont correctement marquées.
+- `send_by_sms(phone, email, mot2pass, token)` : Envoie l'invitation au joueur par SMS en utilisant 
+Twilio, incluant des détails clés pour que le joueur puisse rejoindre le jeu, et met à jour le statut de 
+l'invitation à "envoyé".
+
+En intégrant des fonctionnalités telles que l'envoi d'invitations par SMS et la gestion des statuts 
+d'invitation, la classe `Invitation` joue un rôle crucial dans le processus d'onboarding des joueurs, 
+assurant une expérience utilisateur fluide et sécurisée depuis l'invitation jusqu'à l'activation 
+du compte joueur.
