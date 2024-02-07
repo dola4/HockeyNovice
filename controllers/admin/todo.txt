@@ -1,0 +1,14 @@
+gameOn :
+    - verifier create player : 
+        - tester la verification de date, remettre les variables twilio.
+        
+    - deboguer bouton terminer : 
+        - programmerupdate team stats
+
+    - programmer bouton team/opponent score :
+        - doit upgrade le score en temp reel.
+    
+    - programmer bouton +- des joueurs et goaler pour StatsGame
+
+    - programmer bouton cancel 
+        - supprimer la game creer pour la page 

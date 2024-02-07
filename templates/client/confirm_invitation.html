@@ -2,28 +2,32 @@
 <html>
 <head>
     <title>Confirmation d'invitation</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/client/confirm_invitation.css">
 </head>
 <body>
-    <h1>Confirmer votre invitation</h1>
-    <form method="POST" action="{{ url_for('player_routes.confirm_invitation', player_id=player_id) }}">
-        
-        <label for="token">Token:</label>
-        <input type="text" id="token" name="token" required>
-        <br>
+    <div class="container">
+        <h1>Confirmer votre invitation</h1>
+        <form method="POST" action="{{ url_for('player_routes.confirm_invitation', player_id=player_id) }}">
+            
+            <label for="token">Token:</label>
+            <input type="text" id="token" name="token" required>
+            <br>
 
-        <label for="initial_password">Mot de passe initial (envoyé par SMS):</label>
-        <input type="password" id="initial_password" name="initial_password" required>
-        <br>
+            <label for="initial_password">Mot de passe initial (envoyé par SMS):</label>
+            <input type="password" id="initial_password" name="initial_password" required>
+            <br>
 
-        <label for="new_password">Nouveau mot de passe:</label>
-        <input type="password" id="new_password" name="new_password" required>
-        <br>
+            <label for="new_password">Nouveau mot de passe:</label>
+            <input type="password" id="new_password" name="new_password" required>
+            <br>
 
-        <label for="confirm_new_password">Confirmer le nouveau mot de passe:</label>
-        <input type="password" id="confirm_new_password" name="confirm_new_password" required>
-        <br>
+            <label for="confirm_new_password">Confirmer le nouveau mot de passe:</label>
+            <input type="password" id="confirm_new_password" name="confirm_new_password" required>
+            <br>
 
-        <input type="submit" value="Confirmer">
-    </form>
+            <input type="submit" value="Confirmer">
+        </form>
+    </div>
 </body>
+
 </html>

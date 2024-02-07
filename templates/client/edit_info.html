@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Modification de mes informations</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/client/edit_info.css">
+
 </head>
 <body>
     <form method="POST" action="{{ url_for('player_routes.edit_info', player_id=player._id) }}" enctype="multipart/form-data">

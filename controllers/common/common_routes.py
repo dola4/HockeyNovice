@@ -26,19 +26,20 @@ def login():
             print("Player:", player)
             if check_password_hash(player.password, password):
                 session['player'] = player.to_session_dict()
-                invitation = Invitation.find_one_by_player(player._id)
-                if invitation:
-                    status = Invitation.check_state(player._id)
-                    if status == "envoye":
-                        return redirect(url_for('player_routes.confirm_invitation', player_id=player._id))
+                return redirect(url_for('player_routes.player_profil', player_id=player._id)) 
+                #invitation = Invitation.find_one_by_player(player._id)
+                #if invitation:
+                #    status = Invitation.check_state(player._id)
+                #    if status == "envoye":
+                #        return redirect(url_for('player_routes.confirm_invitation', player_id=player._id))
                 
-                    elif status == "accepte":
-                        return redirect(url_for('player_routes.player_profil', player_id=player._id))
+                #    elif status == "accepte":
+                #        return redirect(url_for('player_routes.player_profil', player_id=player._id))
                 
-                    else:
-                        return redirect(url_for('player_routes.contact_admin'))
-                else:
-                    return redirect(url_for('player_routes.contact_admin'))
+                #    else:
+                #        return redirect(url_for('player_routes.contact_admin'))
+               # else:
+               #     return redirect(url_for('player_routes.contact_admin'))
             else:
                 return render_template('common/login.html', error="Invalid password")
             
@@ -86,7 +87,7 @@ def player_info(player_id):
         return redirect(url_for('common_routes.login'))
 
     player = Player.find_one(player_id)
-    team = Team.find_one(player.team_id)
+    team = Team.find_one(ObjectId(player.team_id))
     player_id = session['player']['_id'] if 'player' in session else None
 
     return render_template('common/player_info.html', player=player, team=team, player_id=player_id)

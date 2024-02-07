@@ -1,13 +1,22 @@
-<a href="{{ url_for('common_routes.deconnect') }}">Déconnexion</a>
-<p> <a href="{{ url_for('common_routes.team_info', team_id=team._id) }}">{{ team.name }}</a> </p>
-<p> <a href="{{ url_for('common_routes.player_info', player_id=player._id) }}">Mes Stats</a> </p>
-<p> <a href="{{ url_for('player_routes.edit_info', player_id=player._id) }}">Modifier mes infos</a> </p>
-<a href="{{ url_for('player_routes.change_password', player_id=player._id) }}">Changer de mot de passe</a><p/>
+<head>
+    <title>Profil du Joueur</title>
+    <link rel="stylesheet" href="../static/styles/client/player_profil.css"> 
 
 
-<p>Nom : {{ player.first_name }} {{ player.last_name }} </p>
-<p>E-mail : {{ player.email }} </p>
-<p>Téléphone : {{ player.phone }} </p>
-<p>Niveau : {{ player.niveau }} </p>
-<p>Numero : {{ player.number }} </p>
-<p>Position : {{ player.position }} </p>
+    <body>
+        <div class="container">
+            <a href="{{ url_for('common_routes.deconnect') }}">Déconnexion</a>
+            <p><a href="{{ url_for('common_routes.team_info', team_id=team._id) }}">{{ team.name }}</a></p>
+            <p><a href="{{ url_for('common_routes.player_info', player_id=player._id) }}">Mes Stats</a></p>
+            <p><a href="{{ url_for('player_routes.edit_info', player_id=player._id) }}">Modifier mes infos</a></p>
+            <a href="{{ url_for('player_routes.change_password', player_id=player._id) }}">Changer de mot de passe</a>
+    
+            <p>Nom : {{ player.first_name }} {{ player.last_name }}</p>
+            <p>E-mail : {{ player.email }}</p>
+            <p>Téléphone : {{ player.phone }}</p>
+            <p>Niveau : {{ player.niveau }}</p>
+            <p>Numero : {{ player.number }}</p>
+            <p>Position : {{ player.position }}</p>
+        </div>
+    </body>
+    

@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Informations du Joueur</title>
+    <link rel="stylesheet" type="text/css" href="../static/styles/common/player_info.css">
+
 </head>
 <body>
 
@@ -18,13 +20,20 @@
 
     <h1>Informations du Joueur</h1>
     <div>
-        <img src="{{ player.photo_url }}" alt="Photo du joueur" />
-        <p>Nom : {{ player.first_name }} {{ player.last_name }}</p>
-        <p>Niveau : {{ player.niveau }}</p>
-        <p>Numéro : {{ player.number }}</p>
-        <p>Position : {{ player.position }}</p>
-        <p>E mail : {{ player.email }}</p>
-        <p>Téléphone : {{ player.phone }}</p>
+        <!-- Ajoutez une div pour le conteneur flex autour de l'image et des informations du joueur -->
+        <div class="player-info-container">
+            <div class="player-image">
+                <img src="{{ player.photo_url }}" alt="Photo du joueur" />
+            </div>
+            <div class="player-details">
+                <p>Nom : {{ player.first_name }} {{ player.last_name }}</p>
+                <p>Niveau : {{ player.niveau }}</p>
+                <p>Numéro : {{ player.number }}</p>
+                <p>Position : {{ player.position }}</p>
+                <p>E mail : {{ player.email }}</p>
+                <p>Téléphone : {{ player.phone }}</p>
+            </div>
+</div>
 
 
         <h2>Statistiques de joueur</h2>

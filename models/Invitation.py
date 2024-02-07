@@ -65,7 +65,7 @@ class Invitation:
     def find_all(self):
         try:
             invitations = db.invitations.find()
-            return [self.from_dict(invitation) for invitation in invitations]  # Instanciez les objets Invitation
+            return [self.from_dict(invitation) for invitation in invitations]  
         except Exception as e:
             print(e)
             return None
@@ -109,7 +109,6 @@ class Invitation:
             if invitation_dict:
                 invitation = cls.from_dict(invitation_dict)  # Instanciez un objet Invitation
                 if invitation.status == "envoye":
-                    # Utilisez timedelta pour ajouter 5 jours à la date de l'invitation et comparez-la à la date actuelle
                     if invitation.date + timedelta(days=5) < datetime.now().date():
                         invitation.status = "expire"
                         invitation.update()  # Mettez à jour l'invitation dans la base de données
@@ -143,12 +142,12 @@ class Invitation:
         L'équipe du jeu"""
 
         if self:
-            twilio_format_phone = "+1" + phone
+            player_twilio_format_phone = "+1" + phone
             try:
                 message = client.messages.create(
-                    body=body,
-                    from_=my_twilio_phone,
-                    to=twilio_format_phone
+                    body = body,
+                    from_ = my_twilio_phone,
+                    to = player_twilio_format_phone
                 )
 
                 db.invitations.update_one({"_id": self._id}, {"$set": {"status": "envoye"}})
@@ -161,3 +160,4 @@ class Invitation:
         
         
             
+ 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Create Player</title>
-    <!-- Ajoutez des liens vers CSS si nécessaire -->
+    <link rel="stylesheet" type="text/css" href="../static/styles/admin/create_player.css">
 </head>
 <body>
     
@@ -40,5 +40,6 @@
 
         <button type="submit">Create Player</button>
     </form>
+    <a href="{{ url_for('admin_routes.admin_dashboard') }}">Annuler</a>
 </body>
 </html>
