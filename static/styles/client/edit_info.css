@@ -29,11 +29,11 @@ input[type="file"] {
     margin-bottom: 20px;
     border-radius: 4px;
     border: 1px solid #ddd;
-    box-sizing: border-box; /* Assure that padding does not affect the final computed width of an element */
+    box-sizing: border-box;
 }
 
 button {
-    background-color: #0055A4; /* Couleur principale */
+    background-color: #0055A4; 
     color: white;
     padding: 10px 20px;
     border: none;
@@ -43,7 +43,7 @@ button {
 }
 
 button:hover {
-    background-color: #003366; /* Une nuance plus foncée */
+    background-color: #003366;
 }
 
 a {

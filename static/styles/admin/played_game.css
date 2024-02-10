@@ -1,4 +1,3 @@
-/* Style général de la page, identique à celui de create_player.html */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -6,9 +5,8 @@ body {
     padding: 0;
 }
 
-/* Styles spécifiques au formulaire */
 form {
-    max-width: 400px; /* Ajustez selon le contenu */
+    max-width: 400px; 
     margin: 40px auto; /* Centrage et plus d'espace autour du formulaire */
     padding: 20px;
     background-color: #fff;
@@ -31,7 +29,7 @@ input[type="text"] {
 
 button {
     width: 100%;
-    background-color: #003366; /* Utilise la même couleur que dans le style précédent */
+    background-color: #0055A4 ; 
     color: white;
     padding: 10px;
     border: none;
@@ -40,23 +38,22 @@ button {
 }
 
 button:hover {
-    background-color: #0055A4; /* Couleur au survol */
+    background-color: #003366; /* Couleur au survol */
 }
 
 a {
-    display: inline-block; /* Permet d'appliquer des marges */
-    margin-top: 20px; /* Espacement au-dessus du lien */
+    display: inline-block; 
+    margin-top: 20px;
     text-align: center;
     width: 100%;
-    color: #003366; /* Harmonisation avec le thème */
-    text-decoration: none; /* Supprime le soulignement */
+    color: #003366; 
+    text-decoration: none; 
 }
 
 a:hover {
-    text-decoration: underline; /* Effet au survol pour indiquer la possibilité de cliquer */
+    text-decoration: underline;
 }
 
-/* Amélioration de la visibilité des champs obligatoires */
 input:required {
     border-color: #003366;
 }

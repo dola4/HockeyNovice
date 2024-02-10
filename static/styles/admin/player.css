@@ -2,14 +2,14 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f2f2f2; /* Couleur de fond standard */
+    background-color: #f2f2f2; 
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #003366; /* Couleur typique de la LNH */
+    background-color: #003366; 
     padding: 10px 20px;
     color: white;
 }
@@ -29,13 +29,13 @@ header {
 }
 
 .player-photo img {
-    width: 150px; /* Ajustez la taille selon vos besoins */
+    width: 150px; 
     height: 150px;
     border-radius: 50%;
     margin-right: 20px;
 }
 .player-photo{
-    width: 150px; /* Ajustez la taille selon vos besoins */
+    width: 150px; 
     height: 150px;
     border-radius: 50%;
     margin-right: 20px;
@@ -49,10 +49,7 @@ header {
 
 .player-details p {
     margin: 5px 0;
-    
-
 }
-
 
 header a {
     color: white;
@@ -72,17 +69,17 @@ a:hover {
 
 h1, h2 {
     color: #003366;
-    text-align: center; /* Alignement centré */
+    text-align: center; 
 }
 
 div {
     width: 80%;
     margin: 20px auto;
-    background-color: white; /* Arrière-plan de la zone de contenu */
+    background-color: white;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    background-image: url('chemin/vers/votre/image.jpg'); /* Image de fond */
+   /*  background-image: url('chemin/vers/votre/image.jpg'); /* Image de fond */
     background-size: cover;
     background-position: center;
 }

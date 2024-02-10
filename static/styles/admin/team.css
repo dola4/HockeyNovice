@@ -9,7 +9,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #003366; /* Couleur typique de la LNH */
+    background-color: #003366; 
     padding: 10px 20px;
     color: white;
 }
@@ -23,7 +23,7 @@ header a {
 
 h1, h2 {
     color: #003366;
-    text-align: center; /* Alignement centré */
+    text-align: center;
 }
 
 table {
@@ -76,18 +76,18 @@ button:hover, input[type="submit"]:hover {
 }
 
 .startGameButtonContainer {
-    text-align: center; /* Centrer le bouton dans son conteneur */
-    margin-top: 20px; /* Espacement au-dessus du bouton */
+    text-align: center; 
+    margin-top: 20px; 
 }
 
 .startGameButton {
     color: white;
-    padding: 15px 30px; /* Augmentation du padding pour agrandir le bouton */
-    font-size: 18px; /* Augmentation de la taille de la police */
+    padding: 15px 30px; 
+    font-size: 18px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-transform: uppercase; /* Mettre le texte en majuscules */
+    text-transform: uppercase;
     font-weight: bold;
 }
 

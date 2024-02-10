@@ -60,19 +60,19 @@ tr:nth-child(even) {
 
 .player-info-container {
     display: flex;
-    align-items: center; /* Centrer les éléments verticalement */
-    gap: 20px; /* Ajouter un espace entre l'image et les détails */
+    align-items: center; 
+    gap: 20px; 
 }
 
 .player-image img {
-    width: 150px; /* Ajustez la taille de l'image */
+    width: 150px;
     height: auto;
-    border-radius: 8px; /* Optionnel: arrondir les coins de l'image */
+    border-radius: 8px; 
 }
 
 .player-details {
-    flex: 1; /* Prend tout l'espace disponible */
+    flex: 1; 
 }
 
-/* Continuez avec le reste de votre CSS */
+
 
