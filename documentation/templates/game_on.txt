@@ -1,0 +1,48 @@
+La partie script de la page HTML fournit la logique côté client pour interagir avec les éléments 
+de la page, principalement pour la gestion des scores, la manipulation des joueurs entre différentes 
+zones (comme "Tous les Joueurs" et "Joueurs sur la Glace"), et l'interaction avec le serveur pour mettre à 
+jour les statistiques du match en temps réel. 
+Voici une description précise de chaque fonction définie dans le script et de son rôle :
+
+ Variables Globales
+- `teamId` et `gameId` sont définies pour stocker les identifiants du match et de l'équipe.
+
+ Fonctions JavaScript
+
+- cancelGame() : Envoie une requête POST pour annuler le match en cours. En cas de succès, redirige 
+l'utilisateur vers la page admin_team. Gère les erreurs en affichant des messages dans la console.
+
+- addStatButtons(playerRowClone, playerId, isGoaler) : Ajoute dynamiquement des boutons et des indicateurs 
+pour la gestion des statistiques directement sur les lignes représentant les joueurs dans les 
+tableaux "Joueurs sur la Glace". Les boutons permettent d'incrémenter ou de décrémenter les 
+statistiques spécifiques, telles que les buts, les assistances, et d'autres métriques pertinentes.
+
+- movePlayerToIce(playerOrId) : Déplace un joueur de la liste "Tous les Joueurs" vers "Joueurs sur la Glace", 
+en modifiant l'affichage pour refléter les joueurs actuellement en jeu. Cette action est liée à un 
+événement de clic sur la ligne du joueur dans le tableau.
+
+- updateStat(playerId, statType, change) : Envoie une requête au serveur pour mettre à jour une 
+statistique spécifique d'un joueur. Utilise les Promises pour gérer les réponses asynchrones, mettant à jour 
+l'interface utilisateur en fonction du succès ou de l'échec de la requête.
+
+- movePlayersBackToAllPlayers(table) : Inverse de `movePlayerToIce`, cette fonction remet les joueurs 
+du tableau "Joueurs sur la Glace" dans la liste "Tous les Joueurs", ajustant l'interface utilisateur 
+pour refléter les joueurs qui ne sont plus en jeu actif.
+
+- endMatch() : Compile les statistiques de jeu à la fin du match, envoie les mises à jour au serveur, 
+et gère potentiellement la navigation vers une autre page une fois le match terminé. Cette fonction inclue 
+la logique pour déterminer le résultat du match (victoire, défaite, défaite en surtemps) et pour mettre à 
+jour les statistiques de l'équipe en conséquence.
+
+- updateGamesPlayedForAllPlayers(table) : utilisée dans le contexte de `endMatch`, cette fonction parcourt 
+les joueurs et met à jour le serveur avec le nombre de matchs joués, ajustant les statistiques individuelles 
+des joueurs.
+
+- adjustScore(scoreType, adjustment) : Permet l'ajustement dynamique des scores de l'équipe et de 
+l'adversaire directement depuis l'interface utilisateur, avec une interaction directe avec le serveur 
+pour enregistrer ces changements.
+
+ Gestion des Événements
+Des écouteurs d'événements sont attachés à divers boutons (`teamScorePlus`, `teamScoreMinus`, `opponentScorePlus`, 
+`opponentScoreMinus`, `pauseButton`, `endButton`, `cancelGame`) pour déclencher les fonctions correspondantes,
+ permettant une interaction en temps réel avec les données du match à partir de l'interface utilisateur.

@@ -1,4 +1,4 @@
-from bson.objectid import ObjectId
+from bson.objectid import ObjectId, InvalidId
 
 
 from database.mongoDB import connection
@@ -13,12 +13,15 @@ db = connection()
 
 
 class Game:
-    def __init__(self, team_id, opponent, date, time, _id = None):
+    def __init__(self, team_id=None, opponent=None, date=None, time=None, _id=None, team_score=0, opponent_score=0):
         self._id = _id
         self.team_id = team_id
         self.opponent = opponent
         self.date = date
         self.time = time
+        self.team_score = team_score
+        self.opponent_score = opponent_score
+
 
         
 
@@ -28,16 +31,21 @@ class Game:
             'opponent': self.opponent,
             'date': self.date,
             'time': self.time,
+            'team_score': self.team_score,
+            'opponent_score': self.opponent_score,
         }
         
         
     def from_dict(self, game_dict):
+        self._id = game_dict.get('_id')
         self.team_id = game_dict.get('team_id')
         self.opponent = game_dict.get('opponent')
         self.date = game_dict.get('date')
         self.time = game_dict.get('time')
+        self.team_score = game_dict.get('team_score', 0)
+        self.opponent_score = game_dict.get('opponent_score', 0)
         return self
-    
+
     
         
     def save(self):
@@ -49,13 +57,20 @@ class Game:
             result = db.games.update_one({'_id': ObjectId(self._id)}, {'$set': self.to_dict()})
             return result.modified_count > 0
         
-    def find_game(_id):
-        game = db.games.find_one({'_id': _id})
-        print(game)
-        if game:
-            return Game().from_dict(game)
-        else:
+    
+    @classmethod
+    def find_game(cls, game_id):
+        try:
+            _id = ObjectId(game_id)
+            game_data = db.games.find_one({'_id': _id})
+            if game_data:
+                return cls().from_dict(game_data)  
+            else:
+                return None
+        except InvalidId:
             return None
+
+
         
     def find_team(self):
         team = Team.find_one(self.team_id)
@@ -76,12 +91,14 @@ class Game:
             games.append(game)
         return games
 
+
+
     @classmethod
     def find_stats_for_game(cls, game_id):
         
         from .StatsGame import StatsGame
         
-        stats_game_data = db.stats_game.find({'game_id': game_id})
+        stats_game_data = db.statsGame.find({'game_id': game_id})
         stats_for_game = []
         for stats_game_dict in stats_game_data:
             stats_game = StatsGame().from_dict(stats_game_dict)

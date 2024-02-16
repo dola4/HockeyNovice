@@ -90,9 +90,7 @@
     </form>
     
     {% for player in players %}
-    <!-- Créer des formulaires de suppression séparés pour chaque joueur -->
     <form id="deleteForm-{{ player._id }}" action="{{ url_for('admin_routes.delete_player', player_id=player._id) }}" method="post" style="display: none;">
-        <!-- Le contenu du formulaire -->
     </form>
     {% endfor %}
     
@@ -105,11 +103,10 @@
 </body>
 </html>
 <script>
-    <script>
-        function confirmDeleteAndSubmit(playerId) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce joueur ?')) {
-                document.getElementById('deleteForm-' + playerId).submit();
-            }
+    function confirmDeleteAndSubmit(playerId) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer ce joueur ?')) {
+            document.getElementById('deleteForm-' + playerId).submit();
         }
-    </script>
+    }
+</script>
     

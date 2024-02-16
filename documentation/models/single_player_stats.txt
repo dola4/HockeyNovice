@@ -1,0 +1,33 @@
+La classe `singleStatsPlayer` est conçue pour la gestion des statistiques pour un match en particulié
+ des joueurs, offrant une structure riche pour enregistrer, actualiser et consulter leurs performances. 
+ Voici une description détaillée de ses composants et fonctionnalités :
+
+Attributs de `singleStatsPlayer` :
+- `goals` : Nombre de buts marqués par le joueur.
+- `assists` : Nombre d'assistances réalisées par le joueur.
+- `shots` : Nombre total de tirs effectués par le joueur.
+- `faceoff_played` : Nombre de mises en jeu auxquelles le joueur a participé.
+- `faceoff_win` : Nombre de mises en jeu remportées par le joueur.
+- `turnovers` : Nombre de pertes de rondelles commises par le joueur.
+- `penalty_minutes` : Total des minutes de pénalité attribuées au joueur.
+- `time_on_ice` : nombre de presence d'un joueur
+- `blocked_shots` : Nombre de tirs bloqués par le joueur.
+- `plus_minus` : Statistique représentant la différence entre les buts marqués par l'équipe lorsque 
+le joueur est sur la glace et les buts encaissés.
+
+Méthodes de `singleStatsPlayer` :
+- `to_dict()` : Convertit l'instance de `singleStatsPlayer` en un dictionnaire. Cette méthode est 
+essentielle pour la sérialisation des données afin de faciliter leur stockage dans une base de données MongoDB.
+  
+- `from_dict(data)` : Méthode de classe qui permet de construire une instance de `singleStatsPlayer` à 
+partir d'un dictionnaire, facilitant ainsi la désérialisation des données en provenance de la base de données.
+  
+- `increment_stat(stat_type)` : Augmente de un la valeur d'une statistique spécifiée par `stat_type`. Cette 
+fonction est utile pour enregistrer une amélioration ou un succès additionnel dans une catégorie de 
+performance spécifique.
+  
+- `decrement_stat(stat_type)` : Diminue de un la valeur d'une statistique spécifiée, à condition que celle-ci 
+soit supérieure à zéro, permettant la correction d'enregistrements erronés.
+  
+- `points` : Propriété calculée qui retourne le total des points générés par le joueur, dérivée de la somme 
+des buts et des assistances, offrant une vue d'ensemble de la contribution offensive du joueur.

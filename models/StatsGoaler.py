@@ -6,11 +6,10 @@ db = connection()
 # Classe Stats pour les goalers et les matchs
 
 class StatsGoaler:
-    def __init__(self, games_played=0, wins=0, losses=0, shot_against=0, save=0, goals_given=0, time_on_ice=0, goals=0, assists=0, penalty_minutes=0):
+    def __init__(self, games_played=0, wins=0, losses=0, save=0, goals_given=0, time_on_ice=0, goals=0, assists=0, penalty_minutes=0):
         self.games_played = games_played
         self.wins = wins
         self.losses = losses
-        self.shot_against = shot_against
         self.save = save
         self.goals_given = goals_given
         self.time_on_ice = time_on_ice
@@ -21,6 +20,10 @@ class StatsGoaler:
     @property
     def points(self):
         return self.goals + self.assists
+    
+    @property
+    def shot_against(self):
+        return self.goals_given + self.save
     
     @property
     def points_per_match(self):
@@ -75,7 +78,6 @@ class StatsGoaler:
         games_played = data.get('games_played', 0)
         wins = data.get('wins', 0)
         losses = data.get('losses', 0)
-        shot_against = data.get('shot_against', 0)
         save = data.get('save', 0)
         goals_given = data.get('goals_given', 0)
         time_on_ice = data.get('time_on_ice', 0)
@@ -87,7 +89,6 @@ class StatsGoaler:
             games_played=games_played,
             wins=wins,
             losses=losses,
-            shot_against=shot_against,
             save=save,
             goals_given=goals_given,
             time_on_ice=time_on_ice,

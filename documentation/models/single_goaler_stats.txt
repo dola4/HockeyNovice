@@ -1,0 +1,31 @@
+La classe `singleStatsGoaler` est spécifiquement conçue pour la gestion des statistiques des gardiens de but pour
+un match en particulié, facilitant l'enregistrement, la mise à jour, et la consultation de leurs performances. 
+Ci-dessous, une description détaillée de ses attributs et méthodes :
+
+Attributs de `singleStatsGoaler` :
+- `save` : Le nombre d'arrêts réalisés par le gardien durant un match.
+- `goals_given` : Le nombre de buts encaissés par le gardien.
+- `time_on_ice` : Le temps total passé sur le terrain par le gardien, généralement mesuré en minutes.
+- `goals` : Le nombre de buts marqués par le gardien, ce qui est moins commun mais possible dans certains sports.
+- `assists` : Le nombre d'assistances réalisées par le gardien, indiquant sa contribution à d'autres buts.
+- `penalty_minutes` : Le total des minutes de pénalité attribuées au gardien pour des infractions.
+
+Méthodes de `singleStatsGoaler` :
+- `to_dict()` : Transforme l'instance de `singleStatsGoaler` en un dictionnaire, facilitant ainsi son intégration 
+avec une base de données MongoDB pour l'insertion ou la mise à jour des enregistrements.
+  
+- `from_dict(data)` : Crée et retourne une instance de `singleStatsGoaler` à partir d'un dictionnaire de données, 
+permettant la reconstruction d'un objet `singleStatsGoaler` à partir des données stockées dans la base de données.
+  
+- `increment_stat(stat_type)` : Incrémente de un la statistique spécifiée par `stat_type`, adaptée pour 
+enregistrer une augmentation dans une performance particulière du gardien de but.
+  
+- `decrement_stat(stat_type)` : Décrémente de un la statistique spécifiée, à condition que cette valeur soit 
+supérieure à zéro, permettant ainsi de corriger d'éventuelles erreurs d'enregistrement.
+  
+- `points` : Une propriété calculée qui retourne la somme des buts et des assistances, offrant une mesure de 
+la contribution offensive du gardien au jeu.
+  
+- `shots_against` : Une propriété calculée qui retourne le total des tirs dirigés contre le gardien, en sommant 
+les arrêts et les buts encaissés, fournissant une mesure de la pression subie par le gardien durant le match.
+

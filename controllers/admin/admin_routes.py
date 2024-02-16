@@ -29,6 +29,8 @@ def admin_dashboard():
 def admin_team(team_id):
     if 'admin' in session:
         team = Team.find_one(team_id)
+        print(team.stats_team.victory)
+        print(team._id)
         players = Player.find_players_by_team(team_id)
         games = Game.find_all_games_for_team(team_id)
         return render_template('admin/admin_team.html', team=team, players=players, games=games)
@@ -107,9 +109,21 @@ def update_player_stats():
 
         # Mise à jour ou création des statistiques du match
         stats_game = StatsGame.find_or_create(player_id, game_id)
+        
+        # Ici, nous accédons directement aux attributs
+        if is_goaler == 'true':
+            print(f"stats_game before update (Goaler): {stats_game.stats_game_goaler.goals}")
+        else:
+            print(f"stats_game before update (Player): {stats_game.stats_game_player.goals}")
+        
         stats_game.update_stat(is_goaler, operation, stat_type)
         stats_game.save()
-
+        
+        if is_goaler == 'true':
+            print(f"stats_game after update (Goaler): {stats_game.stats_game_goaler.goals}")
+        else:
+            print(f"stats_game after update (Player): {stats_game.stats_game_player.goals}")
+        
         return jsonify({"success": True})
     else:
         return jsonify({"error": "Player not found"}), 404
@@ -117,8 +131,54 @@ def update_player_stats():
 
 
 
+@admin_routes.route('/update_score', methods=['POST'])
+def update_score():
+    data = request.get_json()  # Assurez-vous que le corps de la requête est en JSON
+    if not data:
+        return jsonify({"error": "Invalid request"}), 400
+
+    score_type = data.get('scoreType')
+    new_score = int(data.get('newScore'))
+    game_id = data.get('gameId')
+    print(f"score_type : {score_type}, new_score : {new_score}, game_id : {game_id}")
+    game = Game.find_game(game_id)  
+    print(f"game : {game}")
+    if not game:
+        return jsonify({"error": "Game not found"}), 404
+
+    if score_type == 'team_score':
+        game.team_score = new_score
+    elif score_type == 'opponent_score':
+        game.opponent_score = new_score
+
+    if game.save():
+        return jsonify(success=True)
+    else:
+        return jsonify({"error": "Failed to update the game score"}), 500
 
 
+
+@admin_routes.route('/update_stats_team', methods=['POST'])
+def update_stats_team():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid request"}), 400
+    
+    teamId = data['teamId']
+    statType = data['statType']
+    operation = data['operation']
+    team = Team.find_one(teamId)
+    print(team)
+    print(statType, operation)
+    if not team:
+        return jsonify({"error": "Team not found"}), 404
+    
+    # Supposons que la méthode update_stats existe dans votre modèle d'équipe et gère les incréments
+    team.update_stats(statType, operation)
+    return jsonify(success=True)
+
+    
+    
 @admin_routes.route('/create_team', methods=['GET', 'POST'])
 def create_team():
     if 'admin' in session:
@@ -248,3 +308,19 @@ def delete_player(player_id):
     else:
         return redirect(url_for('common_routes.login'))
 
+
+
+@admin_routes.route('/cancel_game/<string:game_id>', methods=['POST'])  # Utiliser uniquement POST si c'est l'intention
+def cancel_game(game_id):
+    if 'admin' not in session:
+        # Renvoyer une réponse JSON pour les requêtes non autorisées
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    game = Game.find_game(game_id)
+    if game:
+        game.delete()
+        # Renvoyer une réponse JSON indiquant le succès de l'opération
+        return jsonify({'success': True}), 200
+    else:
+        # Renvoyer une réponse JSON si le jeu n'est pas trouvé
+        return jsonify({'error': 'Game not found'}), 404

@@ -14,15 +14,16 @@
     <div class="score-controls">
         <div>
             <h3 class="score">Team</h3>
-            <button id="teamScorePlus">-</button>
-            <span id="teamScore">0</span>
-            <button id="teamScoreMinus">+</button>
+            <button id="teamScoreMinus">-</button>
+            <span id="team_score">0</span>
+            <button id="teamScorePlus">+</button>
     </div>
     <div>
         <h3 class="score">Opponent</h3>
-        <button id="opponentScorePlus">-</button>
-        <span id="opponentScore">0</span>
-        <button id="opponentScoreMinus">+</button>
+        <button id="opponentScoreMinus">-</button>
+        <span id="opponent_score">0</span>
+        <button id="opponentScorePlus">+</button>
+        
     </div>
 
 
@@ -82,12 +83,43 @@
     </table>
 
     <button id="endButton">Terminer</button>
-    <a href="{{url_for('admin_routes.admin_team', team_id=team._id)}}">Cancel</a>
+    <a id="cancelGame">Cancel</a>
 
     <!-- Script JavaScript pour la Logique du Match -->
     <script>
 
         const teamId = "{{ team._id }}";
+        const gameId = "{{ game._id }}";
+        console.log('gameID : ', gameId)
+
+        function cancelGame() {
+            fetch(`/cancel_game/${gameId}`, { method: 'POST' })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Server responded with a status: ${response.status}`);
+                }
+                return response.text(); // Utilisez .text() d'abord pour voir ce que vous avez reçu.
+            })
+            .then(text => {
+                try {
+                    return JSON.parse(text); // Essayez de parser le texte comme JSON.
+                } catch (error) {
+                    console.error('Failed to parse text as JSON:', text);
+                    throw error; // Rethrow l'erreur pour la chaîne de promesses.
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    console.log('Game cancelled');
+                    window.location.href = '/admin_team/' + teamId;
+                } else {
+                    console.error('Failed to cancel game');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+
 
         function pauseMatch() {        
             // Déplacez les joueurs du tableau sur la glace au tableau allPlayers
@@ -165,9 +197,14 @@
         
                 if (playerRow) {
                     statCell = playerRow.querySelector(`.${statType} .statValue`);
-                    let currentValue = parseInt(statCell.textContent) || 0;
-                    statCell.textContent = currentValue + change; // Mise à jour immédiate de l'UI
+                    if (statCell) { // Ajoutez cette vérification
+                        let currentValue = parseInt(statCell.textContent) || 0;
+                        statCell.textContent = currentValue + change;
+                    } else {
+                        console.error(`Stat cell not found for player ${playerId} and statType ${statType}`);
+                    }
                 }
+                
         
                 const isGoaler = document.getElementById('goalerOnIce').contains(playerRow);
                 let operation = change === 1 ? (isGoaler ? "increment_goaler" : "increment_player") 
@@ -178,7 +215,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `playerId=${playerId}&gameId=${teamId}&operation=${operation}&statType=${statType}`
+                    body: `playerId=${playerId}&gameId=${gameId}&operation=${operation}&statType=${statType}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -228,14 +265,48 @@
             updates.push(...updateGamesPlayedForAllPlayers(document.getElementById('allPlayers')));
             updates.push(...updateGamesPlayedForAllPlayers(document.getElementById('playersOnIce')));
             updates.push(...updateGamesPlayedForAllPlayers(document.getElementById('goalerOnIce')));
-        
+            
+            let teamScore = document.getElementById('team_score').textContent;
+            let opponentScore = document.getElementById('opponent_score').textContent;
+
+            if (teamScore > opponentScore) {
+                type = 'victory';
+            } else if (teamScore < opponentScore) {
+                type = 'defeat';
+            }else {
+                type = 'defeat_in_OT';
+            }
+            operation = 'increment'
+
+            fetch('/update_stats_team', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    operation: operation,
+                    statType: type,
+                    teamId: teamId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("Mise à jour réussie");
+                } else {
+                    console.error('Mise à jour échouée');
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+
             Promise.all(updates)
                 .then(() => {
-                    window.location.href = '/admin_team/' + teamId;
+                    //window.location.href = '/admin_team/' + teamId;
                 })
                 .catch((error) => {
                     console.error('Erreur lors de la mise à jour des jeux joués:', error);
                 });
+            
         }
         
         
@@ -247,19 +318,49 @@
                 const playerId = row.id;
                 if (!playerId) return;
         
-                const statType = 'games_played';
+                let statType = 'games_played';
         
                 updates.push(updateStat(playerId, statType, 1));
             });
             return updates;
         }
         
+        function adjustScore(scoreType, adjustment) {
+            console.log(gameId)
+            const scoreSpan = document.getElementById(scoreType);
+            let currentScore = parseInt(scoreSpan.textContent);
+            currentScore += adjustment;
+            scoreSpan.textContent = currentScore.toString();
         
+            // Send the updated score to the server
+            fetch(`/update_score`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Correction ici
+                },
+                body: JSON.stringify({
+                    scoreType: scoreType,
+                    newScore: currentScore,
+                    gameId: gameId // Assurez-vous que cette variable contient l'ID du jeu actuel
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    console.error('Failed to update score');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }    
         
-        
+        // Attach these functions to your buttons
+        document.getElementById('teamScorePlus').addEventListener('click', () => adjustScore('team_score', 1));
+        document.getElementById('teamScoreMinus').addEventListener('click', () => adjustScore('team_score', -1));
+        document.getElementById('opponentScorePlus').addEventListener('click', () => adjustScore('opponent_score', 1));
+        document.getElementById('opponentScoreMinus').addEventListener('click', () => adjustScore('opponent_score', -1)); 
         document.getElementById('pauseButton').addEventListener('click', pauseMatch);
         document.getElementById('endButton').addEventListener('click', endMatch);
-
+        document.getElementById('cancelGame').addEventListener('click', cancelGame);
     </script>
     
 </body>

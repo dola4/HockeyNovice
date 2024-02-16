@@ -25,10 +25,12 @@ class Team:
     
 
     def from_dict(self, team_dict):
-        self.name = team_dict["name"]
+        self._id = team_dict['_id']
+        self.name = team_dict['name']
         self.stats_team = StatsTeam().from_dict(team_dict["stats_team"])
-        self._id = team_dict.get("_id", None)
+        self.players = team_dict["players", []]
         return self
+
 
     def save(self):
         # Sauvegarde ou met à jour l'objet Team dans la base de données.
