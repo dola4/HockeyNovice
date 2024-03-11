@@ -301,7 +301,7 @@
 
             Promise.all(updates)
                 .then(() => {
-                    //window.location.href = '/admin_team/' + teamId;
+                    window.location.href = '/admin_team/' + teamId;
                 })
                 .catch((error) => {
                     console.error('Erreur lors de la mise à jour des jeux joués:', error);

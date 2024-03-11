@@ -105,7 +105,11 @@ def confirm_invitation(player_id):
                 
                 session['player'] = player.to_session_dict()
                 return redirect(url_for('player_routes.player_profil', player_id=player_id))
-
+            else:
+                return render_template('client/confirm_invitation.html', invitation=invitation, player_id=player_id, error="Passwords do not match")
+        else:
+            return render_template('client/confirm_invitation.html', invitation=invitation, player_id=player_id, error="Invalid token")
+                
     else:
         return render_template('client/confirm_invitation.html', invitation=invitation, player_id=player_id)
                 

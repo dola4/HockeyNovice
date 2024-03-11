@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 from pymongo import ReturnDocument
 
 import secrets
-import datetime
+from datetime import datetime
 
 from .Invitation import Invitation
 from .StatsGoaler import StatsGoaler
@@ -70,30 +70,32 @@ class Player:
     
     
     
-    
     def create(self):
         try:
-            self.token = secrets.token_urlsafe(16)
+            token = secrets.token_urlsafe(16)
             initial_password = self.password
             hashed_password = generate_password_hash(initial_password)
             self.password = hashed_password
 
             player_dict = self.to_dict()
-            player_dict.pop("_id", None) 
+            player_dict.pop("_id", None)
 
             inserted_player = db.players.insert_one(player_dict)
-            self._id = inserted_player.inserted_id 
+            self._id = inserted_player.inserted_id
 
-            today = datetime.date.today()
-            
-            invitation = Invitation(self._id, self.token, today, "envoye")
-            invitation.create()
-            invitation.send_by_sms(self.phone, self.email, initial_password, self.token)
+            today = datetime.now()
 
-            return True
+            invitation = Invitation(self._id, token, today, "envoye")
+            print(f"invitation: {invitation.to_dict()}")
+            if invitation.create():
+                invitation.send_by_sms(self.phone, self.email, initial_password, token)
+                return True
+            else:
+                return False
         except Exception as e:
             print(e)
             return False
+
 
     
     @classmethod
@@ -135,7 +137,7 @@ class Player:
                 players.append(player)
             
             if len(players) == 0:
-                return "No players found"
+                return []
             
             return players
         except Exception as e:

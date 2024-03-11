@@ -88,17 +88,19 @@ class StatsGame:
 
 
     def update_stat(self, is_goaler, operation, stat_type):
-        # Sélectionne l'objet de statistiques approprié (global ou spécifique au match)
+        # Sélectionne l'objet de statistiques approprié
         stat_object = self.stats_game_goaler if is_goaler else self.stats_game_player
 
-        # Mise à jour de la statistique spécifique pour le match
+        # Mise à jour de la statistique spécifique
         if operation == "increment":
-            stat_object.increment_stat(stat_type)
+            current_value = getattr(stat_object, stat_type, 0)
+            setattr(stat_object, stat_type, current_value + 1)
         elif operation == "decrement":
-            stat_object.decrement_stat(stat_type)
+            current_value = getattr(stat_object, stat_type, 0)
+            setattr(stat_object, stat_type, max(0, current_value - 1)) 
 
-        # Sauvegarde les changements dans la base de données
         self.save()
+
 
 
 

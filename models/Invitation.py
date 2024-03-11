@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 
 db = connection()
 
-ACCOUNT_SID = ''
-AUTH_TOKEN = ''
-TWILIO_PHONE = ''
+ACCOUNT_SID = 'ACff28aa0dd26c23d51908ee5f61c77076'
+AUTH_TOKEN = 'd4fbf4b9c52d8bf9707e7d1ec858e7b8'
+TWILIO_PHONE = '+16098432075'
 
 class Invitation:
     def __init__(self, player_id, token, date, status, _id=None):
@@ -27,15 +27,17 @@ class Invitation:
             "status": self.status
         }
     
-    def from_dict(self, invitation_dict):
-        self._id = invitation_dict["team_id"]
-        self.player_id = invitation_dict["player_id"]
-        self.token = invitation_dict["token"]
-        self.date = invitation_dict["date"]
-        self.status = invitation_dict["status"]
-        
-        return self
-    
+    @classmethod
+    def from_dict(cls, invitation_dict):
+        instance = cls(
+            _id=invitation_dict["_id"],
+            player_id=invitation_dict["player_id"],
+            token=invitation_dict["token"],
+            date=invitation_dict["date"],
+            status=invitation_dict["status"]
+        )
+        return instance
+
     
     def create(self):
         try:           
@@ -109,9 +111,9 @@ class Invitation:
             if invitation_dict:
                 invitation = cls.from_dict(invitation_dict)  # Instanciez un objet Invitation
                 if invitation.status == "envoye":
-                    if invitation.date + timedelta(days=5) < datetime.now().date():
+                    if invitation.date.date() + timedelta(days=5) < datetime.now().date():
                         invitation.status = "expire"
-                        invitation.update()  # Mettez à jour l'invitation dans la base de données
+                        invitation.update()
                         return "expire"
                 return invitation.status
             else:
@@ -127,17 +129,11 @@ class Invitation:
         client = Client(account_sid, auth_token)
 
         body = f"""Bonjour,
-
         Vous avez été invité à rejoindre le jeu.
-
         connectez-vous avec votre email : {email}
-        
         Votre mot de passe provisoire est : {mot2pass}
-
         Votre token est : {token}
-        
         connectez vous dans les 5 jours suivant la réception de ce message pour valider votre inscription.
-
         Cordialement,
         L'équipe du jeu"""
 
@@ -160,4 +156,3 @@ class Invitation:
         
         
             
- 

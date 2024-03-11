@@ -42,20 +42,27 @@ class singleStatsPlayer:
     
     @classmethod
     def from_dict(cls, data):
-        if data is None:
-            return cls()  # Retourne une instance par défaut si aucune donnée
-        # Initialisez l'instance avec des données spécifiques
+        goals=data.get('goals', 0),
+        assists=data.get('assists', 0),
+        shots=data.get('shots', 0),
+        faceoff_played=data.get('faceoff_played', 0),
+        faceoff_win=data.get('faceoff_win', 0),
+        turnovers=data.get('turnovers', 0),
+        penalty_minutes=data.get('penalty_minutes', 0),
+        time_on_ice=data.get('time_on_ice', 0),
+        blocked_shots=data.get('blocked_shots', 0),
+        plus_minus=data.get('plus_minus', 0)
         return cls(
-            goals=data.get('goals', 0),
-            assists=data.get('assists', 0),
-            shots=data.get('shots', 0),
-            faceoff_played=data.get('faceoff_played', 0),
-            faceoff_win=data.get('faceoff_win', 0),
-            turnovers=data.get('turnovers', 0),
-            penalty_minutes=data.get('penalty_minutes', 0),
-            time_on_ice=data.get('time_on_ice', 0),
-            blocked_shots=data.get('blocked_shots', 0),
-            plus_minus=data.get('plus_minus', 0)
+            goals = goals,
+            assists = assists,
+            shots = shots,
+            faceoff_played = faceoff_played,
+            faceoff_win = faceoff_win,
+            turnovers = turnovers,
+            penalty_minutes = penalty_minutes,
+            time_on_ice = time_on_ice,
+            blocked_shots = blocked_shots,
+            plus_minus = plus_minus
         )
 
     

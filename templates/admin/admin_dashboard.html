@@ -22,6 +22,7 @@
             <tr>
                 <th>Équipes</th>
                 <th>Victoires</th>
+                <th>Défaites</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -29,6 +30,7 @@
             <tr>
                 <td><a href="{{ url_for('admin_routes.admin_team', team_id=team._id) }}">{{ team.name }}</a></td>
                 <td>{{ team.stats_team.victory }}</td>
+                <td>{{ team.stats_team.defeat }}</td>
                 <td><a href="{{ url_for('admin_routes.edit_team', team_id=team._id) }}">Edit</a></td>
                 <td>
                     <form action="{{ url_for('admin_routes.delete_team', team_id=team._id) }}" method="post" onsubmit="return confirmDelete()">

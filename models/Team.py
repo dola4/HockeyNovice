@@ -1,6 +1,5 @@
 from bson.objectid import ObjectId
 
-
 from database.mongoDB import connection
 from .StatsTeam import StatsTeam
 from .Player import Player
@@ -13,7 +12,7 @@ class Team:
         self._id = _id
         self.name = name
         self.stats_team = StatsTeam()
-        self.players = [] 
+        #self.players = [] 
 
 
     def to_dict(self):
@@ -28,7 +27,7 @@ class Team:
         self._id = team_dict['_id']
         self.name = team_dict['name']
         self.stats_team = StatsTeam().from_dict(team_dict["stats_team"])
-        self.players = team_dict["players", []]
+        #self.players = team_dict["players", []]
         return self
 
 
@@ -185,7 +184,6 @@ class Team:
             else:
                 return "Invalid operation"
 
-            # Mettez à jour la base de données avec les nouvelles statistiques
             if self._id:
                 updated_stats = {"stats_team": self.stats_team.to_dict()}
                 db.teams.update_one({"_id": ObjectId(self._id)}, {"$set": updated_stats})

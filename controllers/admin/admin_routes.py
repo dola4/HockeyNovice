@@ -33,6 +33,7 @@ def admin_team(team_id):
         print(team._id)
         players = Player.find_players_by_team(team_id)
         games = Game.find_all_games_for_team(team_id)
+        print (players)
         return render_template('admin/admin_team.html', team=team, players=players, games=games)
     else:
         return redirect(url_for('common_routes.login'))
@@ -47,6 +48,7 @@ def played_match(game_id):
         return "Jeu non trouvé", 404
 
     players_stats = Game.find_stats_for_game(game_id)
+    print (players_stats)
     
     return render_template('admin/played_matches.html', game=game, players_stats=players_stats)
 
@@ -101,7 +103,7 @@ def update_player_stats():
     operation = request.form.get('operation')
     stat_type = request.form.get('statType')
     is_goaler = request.form.get('isGoaler') == 'true'  # Convertit la chaîne en booléen
-
+    print (f"player_id : {player_id}, game_id : {game_id}, operation : {operation}, stat_type : {stat_type}, is_goaler : {is_goaler}")
     player = Player.find_one(player_id)
     if player:
         # Mise à jour des statistiques du joueur

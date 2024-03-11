@@ -12,49 +12,44 @@ common_routes = Blueprint('common_routes', __name__)
 
 @common_routes.route('/', methods=['GET', 'POST'])
 def login():
+    if request.method == 'GET':
+        return render_template('common/login.html')
 
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+    # POST logic starts here
+    email = request.form['email']
+    password = request.form['password']
 
-        player = Player.find_one_by_email(email)
-        print(player)
-        admin = Admin.find_one_by_email(email)
-        
-
-        if player:
-            print("Player:", player)
+    # Attempt to authenticate as player
+    player = Player.find_one_by_email(email)
+    if player:
+        invitation = Invitation.find_one_by_player(player._id)
+        if invitation:
             if check_password_hash(player.password, password):
                 session['player'] = player.to_session_dict()
-                return redirect(url_for('player_routes.player_profil', player_id=player._id)) 
-                #invitation = Invitation.find_one_by_player(player._id)
-                #if invitation:
-                #    status = Invitation.check_state(player._id)
-                #    if status == "envoye":
-                #        return redirect(url_for('player_routes.confirm_invitation', player_id=player._id))
-                
-                #    elif status == "accepte":
-                #        return redirect(url_for('player_routes.player_profil', player_id=player._id))
-                
-                #    else:
-                #        return redirect(url_for('player_routes.contact_admin'))
-               # else:
-               #     return redirect(url_for('player_routes.contact_admin'))
-            else:
-                return render_template('common/login.html', error="Invalid password")
-            
-        elif admin:    
-            if check_password_hash(admin.password, password):
-                session['admin'] = admin.to_dict()
-                return redirect(url_for('admin_routes.admin_dashboard'))
-            
+                status = Invitation.check_state(player._id)
+                print (status)
+                if status == "envoye":
+                    return redirect(url_for('player_routes.confirm_invitation', player_id=player._id))
+                elif status == "accepte":
+                    return redirect(url_for('player_routes.player_profil', player_id=player._id))
+                else:
+                    return redirect(url_for('player_routes.contact_admin'))
             else:
                 return render_template('common/login.html', error="Invalid password")
         else:
-            return render_template('common/login.html', error="Invalid email")
+            return render_template('common/login.html', error="You are not invited")
 
+    # Attempt to authenticate as admin
+    admin = Admin.find_one_by_email(email)
+    if admin:
+        if check_password_hash(admin.password, password):
+            session['admin'] = admin.to_dict()
+            return redirect(url_for('admin_routes.admin_dashboard'))
 
-    return render_template('common/login.html')
+        return render_template('common/login.html', error="Invalid password")
+
+    # Fallback error for all unauthenticated attempts
+    return render_template('common/login.html', error="Invalid email or password")
 
 
 @common_routes.route('/all_teams', methods=['GET'])

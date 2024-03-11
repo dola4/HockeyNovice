@@ -38,16 +38,19 @@ class singleStatsGoaler:
     
     @classmethod
     def from_dict(cls, data):
-        if data is None:
-            return cls()  # Retourne une instance par défaut si aucune donnée
-        # Initialisez l'instance avec des données spécifiques
+        save=data.get('save', 0),
+        goals_given=data.get('goals_given', 0),
+        time_on_ice=data.get('time_on_ice', 0),
+        goals=data.get('goals', 0),
+        assists=data.get('assists', 0),
+        penalty_minutes=data.get('penalty_minutes', 0)
         return cls(
-            save=data.get('save', 0),
-            goals_given=data.get('goals_given', 0),
-            time_on_ice=data.get('time_on_ice', 0),
-            goals=data.get('goals', 0),
-            assists=data.get('assists', 0),
-            penalty_minutes=data.get('penalty_minutes', 0)
+            save = save,
+            goals_given = goals_given,
+            time_on_ice = time_on_ice,
+            goals = goals,
+            assists = assists,
+            penalty_minutes = penalty_minutes
         )
             
 
