@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 
 db = connection()
 
-ACCOUNT_SID = 'ACff28aa0dd26c23d51908ee5f61c77076'
-AUTH_TOKEN = 'd4fbf4b9c52d8bf9707e7d1ec858e7b8'
-TWILIO_PHONE = '+16098432075'
+ACCOUNT_SID = ''
+AUTH_TOKEN = ''
+TWILIO_PHONE = ''
 
 class Invitation:
     def __init__(self, player_id, token, date, status, _id=None):
